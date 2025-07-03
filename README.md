@@ -1,3 +1,7 @@
+# CLIP Tools - 工具小站
+
+一个基于 Next.js 构建的实用工具集合网站。
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
