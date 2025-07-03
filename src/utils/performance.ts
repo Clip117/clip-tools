@@ -3,7 +3,7 @@
  * 性能监控工具
  */
 
-import { PerformanceMetrics, LayoutAnalysis } from '@/types/layout';
+import { PerformanceMetrics, LayoutAnalysis, LayoutRule } from '@/types/layout';
 import { Tool } from '@/types/tools';
 
 /** 性能监控类 */
@@ -88,14 +88,14 @@ export class LayoutAnalyzer {
   static analyzeLayout(
     tools: Tool[], 
     decorativeCount: number,
-    layoutRules: any[]
+    layoutRules: LayoutRule[]
   ): LayoutAnalysis {
     let largeCards = 0;
     let tallCards = 0;
     
     tools.forEach((tool, index) => {
       layoutRules.forEach(rule => {
-        if (rule.condition(index, tool.featured)) {
+        if (rule.condition(index, tool.featured || false)) {
           if (rule.classes.includes('col-span-2')) largeCards++;
           if (rule.classes.includes('row-span-2')) tallCards++;
         }
@@ -145,7 +145,7 @@ export class MemoryMonitor {
   /** 获取内存使用情况 */
   static getMemoryUsage(): number | undefined {
     if ('memory' in performance) {
-      // @ts-ignore - performance.memory 在某些浏览器中可用
+      // @ts-expect-error - performance.memory 在某些浏览器中可用
       return performance.memory?.usedJSHeapSize;
     }
     return undefined;
@@ -163,7 +163,7 @@ export class MemoryMonitor {
 }
 
 /** 防抖函数 */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: never[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -176,7 +176,7 @@ export function debounce<T extends (...args: any[]) => any>(
 }
 
 /** 节流函数 */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: never[]) => unknown>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {

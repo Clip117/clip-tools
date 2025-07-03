@@ -50,7 +50,7 @@ export default function DiffViewerPage() {
     try {
       await navigator.clipboard.writeText(content);
       toast.success('Diff result copied to clipboard!');
-    } catch (error) {
+    } catch {
       toast.error('Failed to copy to clipboard');
     }
   };

@@ -16,14 +16,12 @@ import { Clock, Copy, RefreshCw, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
 
 type TimestampUnit = 'seconds' | 'milliseconds' | 'microseconds';
-type DateFormat = 'iso' | 'local' | 'utc' | 'custom';
 
 export default function TimestampConverterPage() {
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [inputTimestamp, setInputTimestamp] = useState('');
   const [timestampUnit, setTimestampUnit] = useState<TimestampUnit>('milliseconds');
-  const [dateFormat, setDateFormat] = useState<DateFormat>('iso');
-  const [customFormat, setCustomFormat] = useState('YYYY-MM-DD HH:mm:ss');
+
   const [inputDate, setInputDate] = useState('');
   const [inputTime, setInputTime] = useState('');
   const [timezone, setTimezone] = useState('local');
@@ -79,34 +77,7 @@ export default function TimestampConverterPage() {
     }
   };
 
-  const formatDate = (date: Date, format: DateFormat): string => {
-    switch (format) {
-      case 'iso':
-        return date.toISOString();
-      case 'local':
-        return date.toLocaleString();
-      case 'utc':
-        return date.toUTCString();
-      case 'custom':
-        // Simple custom format implementation
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        const seconds = String(date.getSeconds()).padStart(2, '0');
-        
-        return customFormat
-          .replace('YYYY', year.toString())
-          .replace('MM', month)
-          .replace('DD', day)
-          .replace('HH', hours)
-          .replace('mm', minutes)
-          .replace('ss', seconds);
-      default:
-        return date.toISOString();
-    }
-  };
+
 
   const getTimestampFromInput = (): number => {
     if (!inputDate || !inputTime) return Date.now();
@@ -154,7 +125,7 @@ export default function TimestampConverterPage() {
 
   // Convert date to timestamp
   const dateTimestamp = getTimestampFromInput();
-  const convertedTimestamp = convertDateToTimestamp(new Date(dateTimestamp), timestampUnit);
+  convertDateToTimestamp(new Date(dateTimestamp), timestampUnit);
 
   const timezones = [
     { value: 'local', label: 'Local Time' },

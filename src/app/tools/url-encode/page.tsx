@@ -22,7 +22,7 @@ export default function URLEncodePage() {
   const encodeURL = (text: string) => {
     try {
       return encodeURIComponent(text);
-    } catch (error) {
+    } catch {
       toast.error('编码失败，请检查输入内容');
       return '';
     }
@@ -31,7 +31,7 @@ export default function URLEncodePage() {
   const decodeURL = (text: string) => {
     try {
       return decodeURIComponent(text);
-    } catch (error) {
+    } catch {
       toast.error('解码失败，请检查输入内容');
       return '';
     }

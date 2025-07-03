@@ -11,7 +11,6 @@ import { CategoryFilter } from '@/components/category-filter';
 import { DevTools, SimpleDevTools } from '@/components/dev-tools';
 import { TOOLS, getFeaturedTools, getToolsByCategory } from '@/data/tools';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 import { DEFAULT_LAYOUT_CONFIG, calculateLayoutClasses } from '@/config/layout';
 import { SearchBox } from '@/components/search-box';
 import { Tool } from '@/types/tools';
@@ -79,7 +78,7 @@ export default function Home() {
     // 基于工具数量动态计算装饰卡片数量，约为工具数量的1/4
     const dynamicMaxCount = Math.ceil(displayTools.length / 4);
     return Math.min(decorativeConfig.maxCount, dynamicMaxCount);
-  }, [displayTools.length]);
+  }, [displayTools.length, displayTools]);
   
   // 错误处理
   const handleBentoGridError = (error: Error) => {

@@ -5,13 +5,14 @@
 
 'use client';
 
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
+import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
+
 import { Upload, Download, RotateCcw, Image as ImageIcon, Zap } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -33,7 +34,7 @@ export default function ImageCompressor() {
     return new Promise((resolve) => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d')!;
-      const img = new Image();
+      const img = new HTMLImageElement();
       
       img.onload = () => {
         canvas.width = img.width;
@@ -80,7 +81,7 @@ export default function ImageCompressor() {
           compressionRatio,
           preview
         });
-      } catch (error) {
+      } catch {
         toast.error(`压缩 ${file.name} 时出错`);
       }
     }
@@ -252,10 +253,13 @@ export default function ImageCompressor() {
                 {images.map((image, index) => (
                   <div key={index} className="border rounded-lg p-4">
                     <div className="flex items-start gap-4">
-                      <img
+                      <Image
                         src={image.preview}
                         alt={image.original.name}
+                        width={80}
+                        height={80}
                         className="w-20 h-20 object-cover rounded border"
+                        unoptimized
                       />
                       <div className="flex-1 min-w-0">
                         <h4 className="font-medium truncate">{image.original.name}</h4>

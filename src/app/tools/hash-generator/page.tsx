@@ -134,7 +134,7 @@ export default function HashGeneratorPage() {
       });
       
       toast.success(`${selectedHash.toUpperCase()} hash generated successfully!`);
-    } catch (error) {
+    } catch {
       toast.error('Failed to generate hash');
     } finally {
       setIsGenerating(false);
@@ -168,7 +168,7 @@ export default function HashGeneratorPage() {
       
       setHashResults(results);
       toast.success('All hashes generated successfully!');
-    } catch (error) {
+    } catch {
       toast.error('Failed to generate hashes');
     } finally {
       setIsGenerating(false);
@@ -179,7 +179,7 @@ export default function HashGeneratorPage() {
     try {
       await navigator.clipboard.writeText(text);
       toast.success(`${type} hash copied to clipboard!`);
-    } catch (error) {
+    } catch {
       toast.error('Failed to copy to clipboard');
     }
   };

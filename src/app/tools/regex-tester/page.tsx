@@ -141,7 +141,7 @@ IP: 192.168.1.1`
         try {
           const replaced = testString.replace(regex, replacementText);
           setReplacedText(replaced);
-        } catch (replaceError) {
+        } catch {
           setReplacedText('Error in replacement');
         }
       } else {
@@ -153,7 +153,7 @@ IP: 192.168.1.1`
       setMatches([]);
       setReplacedText('');
     }
-  }, [pattern, testString, flags, replacementText]);
+  }, [pattern, testString, flags, replacementText, getFlagsString]);
 
   const loadPattern = (patternData: typeof commonPatterns[0]) => {
     setPattern(patternData.pattern);

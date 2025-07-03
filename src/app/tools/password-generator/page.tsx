@@ -98,7 +98,7 @@ export default function PasswordGeneratorPage() {
     }
     
     return charset;
-  }, [options, customChars]);
+  }, [options, customChars, charSets.ambiguous, charSets.lowercase, charSets.numbers, charSets.similar, charSets.symbols, charSets.uppercase]);
 
   // Generate single password
   const generatePassword = useCallback(() => {

@@ -12,19 +12,19 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import { Copy, RotateCcw, ArrowUpDown, Upload, Download } from 'lucide-react';
+import { Copy, RotateCcw, ArrowUpDown, Download } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function Base64Page() {
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
   const [mode, setMode] = useState<'encode' | 'decode'>('encode');
-  const [fileMode, setFileMode] = useState(false);
+
 
   const encodeBase64 = (text: string) => {
     try {
       return btoa(unescape(encodeURIComponent(text)));
-    } catch (error) {
+    } catch {
       toast.error('编码失败，请检查输入内容');
       return '';
     }
@@ -33,7 +33,7 @@ export default function Base64Page() {
   const decodeBase64 = (text: string) => {
     try {
       return decodeURIComponent(escape(atob(text)));
-    } catch (error) {
+    } catch {
       toast.error('解码失败，请检查Base64格式');
       return '';
     }

@@ -214,7 +214,7 @@ export function DevTools({ tools, decorativeCount, className }: DevToolsProps) {
                   size="sm"
                   onClick={() => {
                     // 清除性能数据
-                    const monitor = (window as any).__bentoGridDebug;
+                    const monitor = (window as Window & { __bentoGridDebug?: unknown }).__bentoGridDebug;
                     if (monitor) {
                       console.log('清除性能数据');
                     }
@@ -234,7 +234,7 @@ export function DevTools({ tools, decorativeCount, className }: DevToolsProps) {
 }
 
 // 简化版本的开发者工具
-export function SimpleDevTools({ tools, decorativeCount }: Omit<DevToolsProps, 'className'>) {
+export function SimpleDevTools({ }: Omit<DevToolsProps, 'className'>) {
   const { hasPerformanceIssues, currentMetrics } = useBentoGridPerformance();
   
   if (process.env.NODE_ENV !== 'development' || !hasPerformanceIssues) {

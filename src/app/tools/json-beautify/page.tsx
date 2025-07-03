@@ -29,7 +29,7 @@ export default function JsonBeautifyPage() {
   const [validationError, setValidationError] = useState('');
   const [isValid, setIsValid] = useState<boolean | null>(null);
 
-  const validateJson = (jsonString: string): { isValid: boolean; error?: string; parsed?: any } => {
+  const validateJson = (jsonString: string): { isValid: boolean; error?: string; parsed?: unknown } => {
     if (!jsonString.trim()) {
       return { isValid: false, error: 'JSON string is empty' };
     }
@@ -43,15 +43,16 @@ export default function JsonBeautifyPage() {
     }
   };
 
-  const sortObjectKeys = (obj: any): any => {
+  const sortObjectKeys = (obj: unknown): unknown => {
     if (Array.isArray(obj)) {
       return obj.map(sortObjectKeys);
     } else if (obj !== null && typeof obj === 'object') {
-      const sortedObj: any = {};
-      Object.keys(obj)
+      const sortedObj: Record<string, unknown> = {};
+      const objRecord = obj as Record<string, unknown>;
+      Object.keys(objRecord)
         .sort()
         .forEach(key => {
-          sortedObj[key] = sortObjectKeys(obj[key]);
+          sortedObj[key] = sortObjectKeys(objRecord[key]);
         });
       return sortedObj;
     }

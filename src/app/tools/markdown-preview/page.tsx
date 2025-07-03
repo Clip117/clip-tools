@@ -56,7 +56,7 @@ This is a **bold** text and this is *italic*.
     try {
       await navigator.clipboard.writeText(content);
       toast.success(`${type === 'markdown' ? 'Markdown' : 'HTML'} copied to clipboard!`);
-    } catch (error) {
+    } catch {
       toast.error('Failed to copy to clipboard');
     }
   };

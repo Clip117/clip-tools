@@ -28,17 +28,16 @@ export function DecorativeCard({
     return generateStableIcon(`${seed}-${index}`, config.icons);
   }, [seed, index, config.icons]);
 
-  // 预定义的提示文案
-  const messages = [
-    '更多工具即将到来',
-    '敬请期待新功能',
-    '工具箱持续扩展中',
-    '更多惊喜等待发现'
-  ];
-
   const message = useMemo(() => {
+    // 预定义的提示文案
+    const messages = [
+      '更多工具即将到来',
+      '敬请期待新功能',
+      '工具箱持续扩展中',
+      '更多惊喜等待发现'
+    ];
     return messages[index % messages.length];
-  }, [index, messages]);
+  }, [index]);
 
   return (
     <Card 

@@ -44,7 +44,6 @@ export function BentoGrid({
   // 性能监控
   const {
     startMeasure,
-    getPerformanceReport,
     analyzeLayout,
     getOptimizationSuggestions,
     hasPerformanceIssues

@@ -6,6 +6,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -35,7 +36,7 @@ export default function ImageResizePage() {
 
     const reader = new FileReader();
     reader.onload = (e) => {
-      const img = new Image();
+      const img = new HTMLImageElement();
       img.onload = () => {
         setOriginalImage(e.target?.result as string);
         setOriginalDimensions({ width: img.width, height: img.height });
@@ -71,7 +72,7 @@ export default function ImageResizePage() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const img = new Image();
+    const img = document.createElement('img');
     img.onload = () => {
       canvas.width = width;
       canvas.height = height;
@@ -226,10 +227,13 @@ export default function ImageResizePage() {
                 </CardHeader>
                 <CardContent>
                   <div className="border rounded-lg overflow-hidden">
-                    <img
+                    <Image
                       src={originalImage}
                       alt="Original"
+                      width={800}
+                      height={600}
                       className="w-full h-auto max-h-96 object-contain"
+                      unoptimized
                     />
                   </div>
                 </CardContent>
@@ -247,10 +251,13 @@ export default function ImageResizePage() {
                   {resizedImage ? (
                     <div className="space-y-4">
                       <div className="border rounded-lg overflow-hidden">
-                        <img
+                        <Image
                           src={resizedImage}
                           alt="Resized"
+                          width={800}
+                          height={600}
                           className="w-full h-auto max-h-96 object-contain"
+                          unoptimized
                         />
                       </div>
                       <Button onClick={downloadResizedImage} className="w-full">

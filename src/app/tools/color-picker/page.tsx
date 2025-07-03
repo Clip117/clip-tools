@@ -9,8 +9,7 @@ import { useState, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
+
 import { Copy, Palette, RotateCcw } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -42,7 +41,8 @@ export default function ColorPickerPage() {
     b /= 255;
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
-    let h = 0, s = 0, l = (max + min) / 2;
+    let h = 0, s = 0;
+    const l = (max + min) / 2;
 
     if (max !== min) {
       const d = max - min;
@@ -69,7 +69,8 @@ export default function ColorPickerPage() {
     b /= 255;
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
-    let h = 0, s = 0, v = max;
+    let h = 0, s = 0;
+    const v = max;
 
     const d = max - min;
     s = max === 0 ? 0 : d / max;

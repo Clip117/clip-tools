@@ -178,7 +178,7 @@ export function useBentoGridDebug() {
   // 在控制台暴露调试方法
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      (window as any).__bentoGridDebug = {
+      (window as Window & { __bentoGridDebug?: unknown }).__bentoGridDebug = {
         getReport: performance.getPerformanceReport,
         getCurrentMetrics: () => performance.currentMetrics,
         hasIssues: () => performance.hasPerformanceIssues,
@@ -188,7 +188,7 @@ export function useBentoGridDebug() {
 
     return () => {
       if (typeof window !== 'undefined') {
-        delete (window as any).__bentoGridDebug;
+        delete (window as Window & { __bentoGridDebug?: unknown }).__bentoGridDebug;
       }
     };
   }, [performance]);
