@@ -60,7 +60,7 @@ export function Navbar() {
           
           <nav className="flex items-center space-x-1">
             <Link
-              href="https://github.com"
+              href="https://github.com/Clip117/clip-tools"
               target="_blank"
               rel="noopener noreferrer"
             >
