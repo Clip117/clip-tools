@@ -29,8 +29,35 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Deploy on Railway
+
+This project is configured for easy deployment on [Railway](https://railway.app).
+
+### Quick Deploy
+
+1. Fork this repository
+2. Connect your GitHub account to Railway
+3. Create a new project and select this repository
+4. Railway will automatically detect the Next.js configuration and deploy
+
+### Manual Configuration
+
+If you need to configure environment variables:
+
+1. Copy `.env.example` to `.env.local` for local development
+2. Set environment variables in Railway dashboard:
+   - `NEXT_PUBLIC_APP_URL`: Your Railway app URL
+   - Add any other required environment variables
+
+### Railway Configuration
+
+The project includes a `railway.json` file with optimized settings:
+- Automatic health checks
+- Restart policy configuration
+- Nixpacks builder for optimal performance
+
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Alternatively, you can deploy on [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
