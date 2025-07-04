@@ -28,10 +28,11 @@ export const TOOLS: Tool[] = [
   {
     id: 'markdown-preview',
     name: 'Markdown Preview',
-    description: 'MD→HTML 预览',
+    description: 'Markdown实时预览工具',
     category: TOOL_CATEGORIES.TEXT,
     icon: '📄',
-    path: '/tools/markdown-preview'
+    path: '/tools/markdown-preview',
+    featured: true
   },
   {
     id: 'diff-viewer',
@@ -81,25 +82,6 @@ export const TOOLS: Tool[] = [
     category: TOOL_CATEGORIES.TEXT,
     icon: '✨',
     path: '/tools/json-beautify'
-  },
-
-  // Image/Media 图片/多媒体
-  {
-    id: 'image-compress',
-    name: 'Image Compressor',
-    description: '客户端压缩 JPG/PNG/WebP',
-    category: TOOL_CATEGORIES.IMAGE,
-    icon: '🗜️',
-    path: '/tools/image-compress',
-    featured: true
-  },
-  {
-    id: 'image-resize',
-    name: 'Resize Image',
-    description: '图像等比缩放',
-    category: TOOL_CATEGORIES.IMAGE,
-    icon: '📏',
-    path: '/tools/image-resize'
   },
 
   // Color/Design 颜色/设计
