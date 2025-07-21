@@ -155,7 +155,17 @@ export const TOOLS: Tool[] = [
     category: TOOL_CATEGORIES.RANDOM,
     icon: '🆔',
     path: '/tools/uuid-generator'
-  }
+  },
+  // 在 TOOLS 数组中添加新工具
+  {
+    id: 'knowledge-cards',
+    name: 'Knowledge Cards',
+    description: '知识卡片管理工具',
+    category: TOOL_CATEGORIES.TEXT,
+    icon: '📚',
+    path: '/tools/knowledge-cards',
+    featured: true
+  },
 ];
 
 export const TOOL_CATEGORIES_DATA: ToolCategory[] = [
