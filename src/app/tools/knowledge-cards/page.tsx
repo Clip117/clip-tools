@@ -16,9 +16,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Label } from '@/components/ui/label';
 import { KnowledgeCard, KnowledgeCardCategory, DEFAULT_CATEGORIES } from '@/types/knowledge-card';
 import { KnowledgeCardComponent } from '@/components/knowledge-card';
-import { Plus, Search, Filter, BookOpen, FolderPlus } from 'lucide-react';
+import { Plus, Search, BookOpen, FolderPlus } from 'lucide-react';
 import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
 
 export default function KnowledgeCardsPage() {
   const [cards, setCards] = useState<KnowledgeCard[]>([]);
@@ -46,14 +45,14 @@ export default function KnowledgeCardsPage() {
     
     if (savedCards) {
       try {
-        const parsedCards = JSON.parse(savedCards).map((card: any) => ({
+        const parsedCards = JSON.parse(savedCards).map((card: KnowledgeCard) => ({
           ...card,
           createdAt: new Date(card.createdAt),
           updatedAt: new Date(card.updatedAt)
         }));
         setCards(parsedCards);
-      } catch (error) {
-        console.error('Failed to load knowledge cards:', error);
+      } catch {
+        console.error('Failed to load knowledge cards');
       }
     }
     
@@ -61,8 +60,8 @@ export default function KnowledgeCardsPage() {
       try {
         const parsedCategories = JSON.parse(savedCategories);
         setCategories(parsedCategories);
-      } catch (error) {
-        console.error('Failed to load categories:', error);
+      } catch {
+        console.error('Failed to load categories');
         setCategories(DEFAULT_CATEGORIES);
       }
     }
@@ -182,7 +181,7 @@ export default function KnowledgeCardsPage() {
         const data = JSON.parse(e.target?.result as string);
         
         if (data.cards && data.categories) {
-          const importedCards = data.cards.map((card: any) => ({
+          const importedCards = data.cards.map((card: KnowledgeCard) => ({
             ...card,
             createdAt: new Date(card.createdAt),
             updatedAt: new Date(card.updatedAt)
@@ -197,7 +196,7 @@ export default function KnowledgeCardsPage() {
           
           toast.success(`成功加载 ${importedCards.length} 张卡片`);
         }
-      } catch (error) {
+      } catch {
         toast.error('文件格式错误');
       }
     };

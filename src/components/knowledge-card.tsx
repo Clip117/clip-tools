@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { KnowledgeCard } from '@/types/knowledge-card';
 import { cn } from '@/lib/utils';
-import { Edit, Trash2, Pin, PinOff, Calendar } from 'lucide-react';
+import { Edit, Trash2, Pin, PinOff } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface KnowledgeCardProps {
