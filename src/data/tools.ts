@@ -75,14 +75,15 @@ export const TOOLS: Tool[] = [
     icon: '🏷️',
     path: '/tools/html-entities'
   },
-  {
-    id: 'json-beautify',
-    name: 'JSON Beautifier',
-    description: 'JSON美化工具',
-    category: TOOL_CATEGORIES.TEXT,
-    icon: '✨',
-    path: '/tools/json-beautify'
-  },
+  // 删除下面这个 json-beautify 工具配置
+  // {
+  //   id: 'json-beautify',
+  //   name: 'JSON Beautifier',
+  //   description: 'JSON美化工具',
+  //   category: TOOL_CATEGORIES.TEXT,
+  //   icon: '✨',
+  //   path: '/tools/json-beautify'
+  // },
 
   // Color/Design 颜色/设计
   {
