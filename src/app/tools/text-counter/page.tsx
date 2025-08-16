@@ -40,11 +40,11 @@ export default function TextCounterPage() {
   });
 
   // Sample text for demonstration
-  const sampleText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  const sampleText = `这是一个示例文本，用于演示文本计数工具的功能。您可以在这里输入任何文本，工具会自动计算字符数、单词数、句子数等统计信息。
 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+文本计数工具可以帮助您分析文档的长度，这对于写作、编辑和内容创作非常有用。无论您是在写博客文章、学术论文还是社交媒体内容，了解文本的统计信息都能帮助您更好地控制内容的长度。
 
-Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.`;
+此外，工具还提供阅读时间和朗读时间的估算，这些信息对于演讲准备和内容规划特别有价值。`;
 
   // Calculate text statistics
   useEffect(() => {
@@ -67,11 +67,11 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     const characters = text.length;
     const charactersNoSpaces = text.replace(/\s/g, '').length;
 
-    // Count words
+    // Count words (improved for Chinese text)
     const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
 
     // Count sentences (simple approximation)
-    const sentences = text.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0).length;
+    const sentences = text.split(/[.!?。！？]+/).filter(sentence => sentence.trim().length > 0).length;
 
     // Count paragraphs
     const paragraphs = text.split(/\n\s*\n/).filter(para => para.trim().length > 0).length;
@@ -79,7 +79,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     // Count lines
     const lines = text.split('\n').length;
 
-    // Calculate reading time (average reading speed: 200 words per minute)
+    // Calculate reading time (average reading speed: 200 words per minute for English, 300 characters per minute for Chinese)
     const readingTime = Math.max(1, Math.ceil(words / 200));
 
     // Calculate speaking time (average speaking speed: 150 words per minute)
@@ -89,12 +89,14 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     const wordFrequency: Record<string, number> = {};
     const wordArray = text.toLowerCase().match(/\b[\w']+\b/g) || [];
     
-    // Common words to exclude
+    // Common words to exclude (English and Chinese)
     const commonWords = new Set([
       'the', 'and', 'a', 'to', 'of', 'in', 'is', 'it', 'that', 'for',
       'on', 'with', 'as', 'be', 'at', 'this', 'by', 'an', 'are', 'or',
       'was', 'but', 'not', 'from', 'have', 'had', 'has', 'i', 'you', 'he',
-      'she', 'they', 'we', 'it', 'its', 'their', 'my', 'your', 'his', 'her'
+      'she', 'they', 'we', 'it', 'its', 'their', 'my', 'your', 'his', 'her',
+      '的', '了', '在', '是', '我', '有', '和', '就', '不', '人', '都', '一',
+      '一个', '没有', '我们', '你们', '他们', '这个', '那个', '可以', '这样'
     ]);
     
     wordArray.forEach(word => {
@@ -123,41 +125,41 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 
   const handleClear = () => {
     setText('');
-    toast.success('Text cleared');
+    toast.success('文本已清空');
   };
 
   const handleLoadSample = () => {
     setText(sampleText);
-    toast.success('Sample text loaded');
+    toast.success('示例文本已加载');
   };
 
   const copyToClipboard = (content: string, message: string) => {
     navigator.clipboard.writeText(content)
       .then(() => toast.success(message))
-      .catch(() => toast.error('Failed to copy to clipboard'));
+      .catch(() => toast.error('复制到剪贴板失败'));
   };
 
   const copyStats = () => {
-    const statsText = `Text Statistics:
-- Characters: ${stats.characters}
-- Characters (no spaces): ${stats.charactersNoSpaces}
-- Words: ${stats.words}
-- Sentences: ${stats.sentences}
-- Paragraphs: ${stats.paragraphs}
-- Lines: ${stats.lines}
-- Reading time: ${stats.readingTime} min
-- Speaking time: ${stats.speakingTime} min`;
+    const statsText = `文本统计信息:
+- 字符数: ${stats.characters}
+- 字符数 (不含空格): ${stats.charactersNoSpaces}
+- 单词数: ${stats.words}
+- 句子数: ${stats.sentences}
+- 段落数: ${stats.paragraphs}
+- 行数: ${stats.lines}
+- 阅读时间: ${stats.readingTime} 分钟
+- 朗读时间: ${stats.speakingTime} 分钟`;
     
-    copyToClipboard(statsText, 'Statistics copied to clipboard');
+    copyToClipboard(statsText, '统计信息已复制到剪贴板');
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">Text Counter</h1>
+          <h1 className="text-4xl font-bold mb-4">文本计数器</h1>
           <p className="text-muted-foreground text-lg">
-            Count characters, words, sentences, and more in your text
+            统计文本中的字符、单词、句子等信息
           </p>
         </div>
 
@@ -168,15 +170,15 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <FileText className="h-5 w-5" />
-                  Text Input
+                  文本输入
                 </CardTitle>
                 <CardDescription>
-                  Enter or paste your text below
+                  在下方输入或粘贴您的文本
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Textarea
-                  placeholder="Type or paste your text here..."
+                  placeholder="在此输入或粘贴您的文本..."
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   className="min-h-[300px] font-mono text-sm"
@@ -184,18 +186,18 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
                 <div className="flex flex-wrap gap-2">
                   <Button onClick={handleClear} variant="outline">
                     <RotateCcw className="h-4 w-4 mr-2" />
-                    Clear
+                    清空
                   </Button>
                   <Button onClick={handleLoadSample} variant="outline">
-                    Load Sample Text
+                    加载示例文本
                   </Button>
                   <Button 
-                    onClick={() => copyToClipboard(text, 'Text copied to clipboard')}
+                    onClick={() => copyToClipboard(text, '文本已复制到剪贴板')}
                     variant="outline"
                     disabled={!text}
                   >
                     <Copy className="h-4 w-4 mr-2" />
-                    Copy Text
+                    复制文本
                   </Button>
                 </div>
               </CardContent>
@@ -208,43 +210,43 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <AlignJustify className="h-5 w-5" />
-                  Text Statistics
+                  文本统计
                 </CardTitle>
                 <CardDescription>
-                  Detailed analysis of your text
+                  详细的文本分析信息
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Tabs defaultValue="basic">
                   <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="basic">Basic</TabsTrigger>
-                    <TabsTrigger value="advanced">Advanced</TabsTrigger>
+                    <TabsTrigger value="basic">基础</TabsTrigger>
+                    <TabsTrigger value="advanced">高级</TabsTrigger>
                   </TabsList>
                   
                   <TabsContent value="basic" className="space-y-4 pt-4">
                     <div className="space-y-3">
                       <div className="flex justify-between items-center py-2 border-b">
-                        <span>Characters</span>
+                        <span>字符数</span>
                         <span className="font-mono font-semibold">{stats.characters}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b">
-                        <span>Characters (no spaces)</span>
+                        <span>字符数 (不含空格)</span>
                         <span className="font-mono font-semibold">{stats.charactersNoSpaces}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b">
-                        <span>Words</span>
+                        <span>单词数</span>
                         <span className="font-mono font-semibold">{stats.words}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b">
-                        <span>Sentences</span>
+                        <span>句子数</span>
                         <span className="font-mono font-semibold">{stats.sentences}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b">
-                        <span>Paragraphs</span>
+                        <span>段落数</span>
                         <span className="font-mono font-semibold">{stats.paragraphs}</span>
                       </div>
                       <div className="flex justify-between items-center py-2">
-                        <span>Lines</span>
+                        <span>行数</span>
                         <span className="font-mono font-semibold">{stats.lines}</span>
                       </div>
                     </div>
@@ -253,22 +255,22 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
                   <TabsContent value="advanced" className="space-y-4 pt-4">
                     <div className="space-y-3">
                       <div className="flex justify-between items-center py-2 border-b">
-                        <span>Reading Time</span>
-                        <span className="font-mono font-semibold">{stats.readingTime} min</span>
+                        <span>阅读时间</span>
+                        <span className="font-mono font-semibold">{stats.readingTime} 分钟</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b">
-                        <span>Speaking Time</span>
-                        <span className="font-mono font-semibold">{stats.speakingTime} min</span>
+                        <span>朗读时间</span>
+                        <span className="font-mono font-semibold">{stats.speakingTime} 分钟</span>
                       </div>
                       
                       {stats.mostFrequentWords.length > 0 && (
                         <div className="pt-2">
-                          <h4 className="font-semibold mb-2">Most Frequent Words</h4>
+                          <h4 className="font-semibold mb-2">高频词汇</h4>
                           <div className="space-y-1">
                             {stats.mostFrequentWords.map((item, index) => (
                               <div key={index} className="flex justify-between items-center text-sm">
                                 <span className="font-mono">{item.word}</span>
-                                <span className="text-muted-foreground">{item.count} times</span>
+                                <span className="text-muted-foreground">{item.count} 次</span>
                               </div>
                             ))}
                           </div>
@@ -284,7 +286,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
                   disabled={!text}
                 >
                   <Copy className="h-4 w-4 mr-2" />
-                  Copy Statistics
+                  复制统计信息
                 </Button>
               </CardContent>
             </Card>
@@ -296,27 +298,27 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Type className="h-5 w-5" />
-              Features
+              功能特性
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
               <div>
-                <h4 className="font-semibold mb-2">Basic Counting</h4>
+                <h4 className="font-semibold mb-2">基础计数</h4>
                 <p className="text-muted-foreground">
-                  Count characters, words, sentences, paragraphs, and lines in your text.
+                  统计文本中的字符、单词、句子、段落和行数。
                 </p>
               </div>
               <div>
-                <h4 className="font-semibold mb-2">Reading Metrics</h4>
+                <h4 className="font-semibold mb-2">阅读指标</h4>
                 <p className="text-muted-foreground">
-                  Estimate reading and speaking time based on average speeds.
+                  基于平均速度估算阅读时间和朗读时间。
                 </p>
               </div>
               <div>
-                <h4 className="font-semibold mb-2">Word Frequency</h4>
+                <h4 className="font-semibold mb-2">词频分析</h4>
                 <p className="text-muted-foreground">
-                  Identify the most frequently used words in your text, excluding common words.
+                  识别文本中最常用的词汇，排除常见停用词。
                 </p>
               </div>
             </div>

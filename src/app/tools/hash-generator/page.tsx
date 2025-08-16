@@ -87,16 +87,16 @@ export default function HashGeneratorPage() {
   const [isGenerating, setIsGenerating] = useState(false);
 
   const hashTypes = [
-    { value: 'md5', label: 'MD5', description: '128-bit hash (32 hex chars)' },
-    { value: 'sha1', label: 'SHA-1', description: '160-bit hash (40 hex chars)' },
-    { value: 'sha256', label: 'SHA-256', description: '256-bit hash (64 hex chars)' },
-    { value: 'sha512', label: 'SHA-512', description: '512-bit hash (128 hex chars)' },
-    { value: 'crc32', label: 'CRC32', description: '32-bit checksum (8 hex chars)' }
+    { value: 'md5', label: 'MD5', description: '128位哈希 (32个十六进制字符)' },
+    { value: 'sha1', label: 'SHA-1', description: '160位哈希 (40个十六进制字符)' },
+    { value: 'sha256', label: 'SHA-256', description: '256位哈希 (64个十六进制字符)' },
+    { value: 'sha512', label: 'SHA-512', description: '512位哈希 (128个十六进制字符)' },
+    { value: 'crc32', label: 'CRC32', description: '32位校验和 (8个十六进制字符)' }
   ];
 
   const generateHash = async () => {
     if (!inputText.trim()) {
-      toast.error('Please enter some text to hash');
+      toast.error('请输入要哈希的文本');
       return;
     }
 
@@ -133,9 +133,9 @@ export default function HashGeneratorPage() {
         return [result, ...filtered];
       });
       
-      toast.success(`${selectedHash.toUpperCase()} hash generated successfully!`);
+      toast.success(`${selectedHash.toUpperCase()} 哈希生成成功！`);
     } catch {
-      toast.error('Failed to generate hash');
+      toast.error('哈希生成失败');
     } finally {
       setIsGenerating(false);
     }
@@ -143,7 +143,7 @@ export default function HashGeneratorPage() {
 
   const generateAllHashes = async () => {
     if (!inputText.trim()) {
-      toast.error('Please enter some text to hash');
+      toast.error('请输入要哈希的文本');
       return;
     }
 
@@ -167,9 +167,9 @@ export default function HashGeneratorPage() {
       );
       
       setHashResults(results);
-      toast.success('All hashes generated successfully!');
+      toast.success('所有哈希生成成功！');
     } catch {
-      toast.error('Failed to generate hashes');
+      toast.error('哈希生成失败');
     } finally {
       setIsGenerating(false);
     }
@@ -178,57 +178,57 @@ export default function HashGeneratorPage() {
   const copyToClipboard = async (text: string, type: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success(`${type} hash copied to clipboard!`);
+      toast.success(`${type} 哈希已复制到剪贴板！`);
     } catch {
-      toast.error('Failed to copy to clipboard');
+      toast.error('复制到剪贴板失败');
     }
   };
 
   const clearAll = () => {
     setInputText('');
     setHashResults([]);
-    toast.success('All data cleared');
+    toast.success('已清空所有数据');
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">Hash Generator</h1>
+          <h1 className="text-4xl font-bold mb-4">🔐 哈希生成器</h1>
           <p className="text-muted-foreground text-lg">
-            Generate cryptographic hashes and checksums for any text
+            为任何文本生成加密哈希和校验和
           </p>
         </div>
 
         {/* Input Section */}
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle>Input Text</CardTitle>
+            <CardTitle>输入文本</CardTitle>
             <CardDescription>
-              Enter the text you want to hash
+              输入您要哈希的文本
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="input-text">Text to Hash</Label>
+              <Label htmlFor="input-text">要哈希的文本</Label>
               <Textarea
                 id="input-text"
-                placeholder="Enter your text here..."
+                placeholder="在此输入您的文本..."
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 rows={4}
                 className="resize-none"
               />
               <p className="text-sm text-muted-foreground">
-                Characters: {inputText.length} | Bytes: {new TextEncoder().encode(inputText).length}
+                字符数: {inputText.length} | 字节数: {new TextEncoder().encode(inputText).length}
               </p>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="hash-type">Hash Type</Label>
+              <Label htmlFor="hash-type">哈希类型</Label>
               <Select value={selectedHash} onValueChange={(value: HashType) => setSelectedHash(value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select hash type" />
+                  <SelectValue placeholder="选择哈希类型" />
                 </SelectTrigger>
                 <SelectContent>
                   {hashTypes.map((type) => (
@@ -249,18 +249,18 @@ export default function HashGeneratorPage() {
                 disabled={isGenerating || !inputText.trim()}
               >
                 <Hash className="h-4 w-4 mr-2" />
-                Generate {selectedHash.toUpperCase()}
+                生成 {selectedHash.toUpperCase()}
               </Button>
               <Button 
                 onClick={generateAllHashes} 
                 variant="outline"
                 disabled={isGenerating || !inputText.trim()}
               >
-                Generate All Hashes
+                生成所有哈希
               </Button>
               <Button onClick={clearAll} variant="outline">
                 <RotateCcw className="h-4 w-4 mr-2" />
-                Clear
+                清空
               </Button>
             </div>
           </CardContent>
@@ -270,9 +270,9 @@ export default function HashGeneratorPage() {
         {hashResults.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>Hash Results</CardTitle>
+              <CardTitle>哈希结果</CardTitle>
               <CardDescription>
-                Generated hashes for your input text
+                为您的输入文本生成的哈希
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -283,7 +283,7 @@ export default function HashGeneratorPage() {
                       <div className="flex items-center gap-2">
                         <h3 className="font-semibold">{result.type}</h3>
                         <span className="text-sm text-muted-foreground">
-                          ({result.length} characters)
+                          ({result.length} 个字符)
                         </span>
                       </div>
                       <Button
@@ -292,7 +292,7 @@ export default function HashGeneratorPage() {
                         onClick={() => copyToClipboard(result.hash, result.type)}
                       >
                         <Copy className="h-4 w-4 mr-2" />
-                        Copy
+                        复制
                       </Button>
                     </div>
                     <div className="bg-muted p-3 rounded font-mono text-sm break-all">
@@ -308,29 +308,29 @@ export default function HashGeneratorPage() {
         {/* Information */}
         <Card className="mt-6">
           <CardHeader>
-            <CardTitle>Hash Types Information</CardTitle>
+            <CardTitle>哈希类型信息</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
                 <h4 className="font-semibold mb-2">MD5</h4>
-                <p className="text-muted-foreground">Fast but cryptographically broken. Use only for checksums.</p>
+                <p className="text-muted-foreground">速度快但加密已被破解。仅用于校验和。</p>
               </div>
               <div>
                 <h4 className="font-semibold mb-2">SHA-1</h4>
-                <p className="text-muted-foreground">Deprecated for security. Better than MD5 but still vulnerable.</p>
+                <p className="text-muted-foreground">安全性已弃用。比MD5好但仍有漏洞。</p>
               </div>
               <div>
                 <h4 className="font-semibold mb-2">SHA-256</h4>
-                <p className="text-muted-foreground">Secure and widely used. Recommended for most applications.</p>
+                <p className="text-muted-foreground">安全且广泛使用。推荐用于大多数应用。</p>
               </div>
               <div>
                 <h4 className="font-semibold mb-2">SHA-512</h4>
-                <p className="text-muted-foreground">More secure than SHA-256. Good for high-security applications.</p>
+                <p className="text-muted-foreground">比SHA-256更安全。适用于高安全性应用。</p>
               </div>
               <div>
                 <h4 className="font-semibold mb-2">CRC32</h4>
-                <p className="text-muted-foreground">Fast checksum for error detection. Not cryptographically secure.</p>
+                <p className="text-muted-foreground">用于错误检测的快速校验和。非加密安全。</p>
               </div>
             </div>
           </CardContent>

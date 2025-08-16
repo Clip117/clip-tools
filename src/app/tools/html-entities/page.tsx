@@ -169,37 +169,37 @@ export default function HtmlEntitiesPage() {
 
   const handleEncode = () => {
     if (!inputText.trim()) {
-      toast.error('Please enter some text to encode');
+      toast.error('请输入要编码的文本');
       return;
     }
     
     const encoded = encodeHtmlEntities(inputText, encodingType);
     setEncodedText(encoded);
-    toast.success('Text encoded successfully!');
+    toast.success('文本编码成功！');
   };
 
   const handleDecode = () => {
     if (!inputText.trim()) {
-      toast.error('Please enter some text to decode');
+      toast.error('请输入要解码的文本');
       return;
     }
     
     const decoded = decodeHtmlEntities(inputText);
     setDecodedText(decoded);
-    toast.success('Text decoded successfully!');
+    toast.success('文本解码成功！');
   };
 
   const copyToClipboard = (text: string, message: string) => {
     navigator.clipboard.writeText(text)
       .then(() => toast.success(message))
-      .catch(() => toast.error('Failed to copy to clipboard'));
+      .catch(() => toast.error('复制到剪贴板失败'));
   };
 
   const clearAll = () => {
     setInputText('');
     setEncodedText('');
     setDecodedText('');
-    toast.success('All fields cleared');
+    toast.success('已清空所有字段');
   };
 
   const swapTexts = () => {
@@ -207,12 +207,12 @@ export default function HtmlEntitiesPage() {
       setInputText(encodedText);
       setEncodedText('');
       setDecodedText('');
-      toast.success('Encoded text moved to input');
+      toast.success('编码文本已移至输入框');
     } else if (decodedText) {
       setInputText(decodedText);
       setEncodedText('');
       setDecodedText('');
-      toast.success('Decoded text moved to input');
+      toast.success('解码文本已移至输入框');
     }
   };
 

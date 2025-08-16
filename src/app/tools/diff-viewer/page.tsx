@@ -41,17 +41,17 @@ const computeDiff = (text1: string, text2: string) => {
 };
 
 export default function DiffViewerPage() {
-  const [text1, setText1] = useState('This is the original text.\nIt has multiple lines.\nSome lines will be changed.\nOthers will remain the same.');
-  const [text2, setText2] = useState('This is the modified text.\nIt has multiple lines.\nThis line has been changed.\nOthers will remain the same.\nAnd this is a new line.');
+  const [text1, setText1] = useState('这是原始文本。\n它有多行内容。\n有些行会被修改。\n其他行保持不变。');
+  const [text2, setText2] = useState('这是修改后的文本。\n它有多行内容。\n这一行已经被修改了。\n其他行保持不变。\n这是新增的一行。');
   
   const diff = computeDiff(text1, text2);
   
   const copyToClipboard = async (content: string) => {
     try {
       await navigator.clipboard.writeText(content);
-      toast.success('Diff result copied to clipboard!');
+      toast.success('差异结果已复制到剪贴板！');
     } catch {
-      toast.error('Failed to copy to clipboard');
+      toast.error('复制到剪贴板失败');
     }
   };
 
@@ -70,16 +70,16 @@ export default function DiffViewerPage() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    toast.success('Diff result downloaded!');
+    toast.success('差异结果已下载！');
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">Text Diff Viewer</h1>
+          <h1 className="text-4xl font-bold mb-4">📝 文本差异对比工具</h1>
           <p className="text-muted-foreground text-lg">
-            Compare two texts and highlight the differences
+            比较两个文本并高亮显示差异
           </p>
         </div>
 
@@ -87,16 +87,16 @@ export default function DiffViewerPage() {
           {/* Original Text */}
           <Card>
             <CardHeader>
-              <CardTitle>Original Text</CardTitle>
+              <CardTitle>原始文本</CardTitle>
               <CardDescription>
-                Enter the original text here
+                在此输入原始文本
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Textarea
                 value={text1}
                 onChange={(e) => setText1(e.target.value)}
-                placeholder="Enter original text..."
+                placeholder="输入原始文本..."
                 className="min-h-[200px] font-mono text-sm"
               />
             </CardContent>
@@ -105,16 +105,16 @@ export default function DiffViewerPage() {
           {/* Modified Text */}
           <Card>
             <CardHeader>
-              <CardTitle>Modified Text</CardTitle>
+              <CardTitle>修改后文本</CardTitle>
               <CardDescription>
-                Enter the modified text here
+                在此输入修改后的文本
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Textarea
                 value={text2}
                 onChange={(e) => setText2(e.target.value)}
-                placeholder="Enter modified text..."
+                placeholder="输入修改后的文本..."
                 className="min-h-[200px] font-mono text-sm"
               />
             </CardContent>
@@ -126,10 +126,10 @@ export default function DiffViewerPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Diff className="h-5 w-5" />
-              Diff Result
+              差异结果
             </CardTitle>
             <CardDescription>
-              Lines highlighted in red were removed, green were added, and unchanged lines are shown normally
+              红色高亮显示删除的行，绿色高亮显示新增的行，未修改的行正常显示
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -159,7 +159,7 @@ export default function DiffViewerPage() {
                 size="sm"
               >
                 <Copy className="h-4 w-4 mr-2" />
-                Copy Diff
+                复制差异
               </Button>
               <Button
                 onClick={downloadDiff}
@@ -167,7 +167,7 @@ export default function DiffViewerPage() {
                 size="sm"
               >
                 <Download className="h-4 w-4 mr-2" />
-                Download Diff
+                下载差异
               </Button>
             </div>
           </CardContent>
@@ -176,21 +176,21 @@ export default function DiffViewerPage() {
         {/* Legend */}
         <Card className="mt-6">
           <CardHeader>
-            <CardTitle>Diff Legend</CardTitle>
+            <CardTitle>差异图例</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-green-100 dark:bg-green-900/30 rounded"></div>
-                <span>Added lines</span>
+                <span>新增行</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-red-100 dark:bg-red-900/30 rounded"></div>
-                <span>Removed lines</span>
+                <span>删除行</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-background border rounded"></div>
-                <span>Unchanged lines</span>
+                <span>未修改行</span>
               </div>
             </div>
           </CardContent>

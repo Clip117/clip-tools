@@ -26,14 +26,14 @@ export default function CsvToJsonPage() {
 
   // Sample CSV data
   const sampleCsv = `id,name,email,age,active
-1,John Doe,john@example.com,32,true
-2,Jane Smith,jane@example.com,28,true
-3,Bob Johnson,bob@example.com,45,false
-4,Alice Williams,alice@example.com,36,true`;
+1,张三,zhangsan@example.com,32,true
+2,李四,lisi@example.com,28,true
+3,王五,wangwu@example.com,45,false
+4,赵六,zhaoliu@example.com,36,true`;
 
   const parseCsv = () => {
     if (!csvInput.trim()) {
-      toast.error('Please enter CSV data');
+      toast.error('请输入CSV数据');
       return;
     }
 
@@ -44,7 +44,7 @@ export default function CsvToJsonPage() {
       const lines = csvInput.split('\n').filter(line => line.trim() !== '');
       
       if (lines.length === 0) {
-        toast.error('No valid CSV data found');
+        toast.error('未找到有效的CSV数据');
         setIsProcessing(false);
         return;
       }
@@ -89,9 +89,9 @@ export default function CsvToJsonPage() {
       // Convert to formatted JSON string
       const jsonString = JSON.stringify(jsonArray, null, 2);
       setJsonOutput(jsonString);
-      toast.success('CSV converted to JSON successfully!');
+      toast.success('CSV转换为JSON成功！');
     } catch (error) {
-      toast.error('Failed to convert CSV to JSON');
+      toast.error('CSV转JSON失败');
       console.error('CSV parsing error:', error);
     } finally {
       setIsProcessing(false);
@@ -104,7 +104,7 @@ export default function CsvToJsonPage() {
 
     // Check file type
     if (!file.name.endsWith('.csv') && !file.type.includes('csv')) {
-      toast.error('Please select a CSV file');
+      toast.error('请选择CSV文件');
       return;
     }
 
@@ -112,17 +112,17 @@ export default function CsvToJsonPage() {
     reader.onload = (e) => {
       const content = e.target?.result as string;
       setCsvInput(content);
-      toast.success('CSV file loaded successfully!');
+      toast.success('CSV文件加载成功！');
     };
     reader.onerror = () => {
-      toast.error('Failed to read the file');
+      toast.error('文件读取失败');
     };
     reader.readAsText(file);
   };
 
   const downloadJson = () => {
     if (!jsonOutput) {
-      toast.error('No JSON data to download');
+      toast.error('没有JSON数据可下载');
       return;
     }
 
@@ -135,33 +135,33 @@ export default function CsvToJsonPage() {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-    toast.success('JSON file downloaded successfully!');
+    toast.success('JSON文件下载成功！');
   };
 
   const copyToClipboard = (text: string, message: string) => {
     navigator.clipboard.writeText(text)
       .then(() => toast.success(message))
-      .catch(() => toast.error('Failed to copy to clipboard'));
+      .catch(() => toast.error('复制到剪贴板失败'));
   };
 
   const clearAll = () => {
     setCsvInput('');
     setJsonOutput('');
-    toast.success('All data cleared');
+    toast.success('已清空所有数据');
   };
 
   const loadSampleData = () => {
     setCsvInput(sampleCsv);
-    toast.success('Sample CSV data loaded');
+    toast.success('示例CSV数据已加载');
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">CSV to JSON Converter</h1>
+          <h1 className="text-4xl font-bold mb-4">📊 CSV转JSON转换器</h1>
           <p className="text-muted-foreground text-lg">
-            Convert CSV data to JSON format with customizable options
+            将CSV数据转换为JSON格式，支持自定义选项
           </p>
         </div>
 
@@ -171,15 +171,15 @@ export default function CsvToJsonPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileSpreadsheet className="h-5 w-5" />
-                CSV Input
+                CSV输入
               </CardTitle>
               <CardDescription>
-                Enter or upload your CSV data
+                输入或上传您的CSV数据
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <Textarea
-                placeholder="Paste your CSV data here..."
+                placeholder="在此粘贴您的CSV数据..."
                 value={csvInput}
                 onChange={(e) => setCsvInput(e.target.value)}
                 className="min-h-[300px] font-mono text-sm"
@@ -191,7 +191,7 @@ export default function CsvToJsonPage() {
                   onClick={() => document.getElementById('csv-upload')?.click()}
                 >
                   <Upload className="h-4 w-4 mr-2" />
-                  Upload CSV
+                  上传CSV
                 </Button>
                 <input
                   id="csv-upload"
@@ -201,28 +201,28 @@ export default function CsvToJsonPage() {
                   className="hidden"
                 />
                 <Button onClick={loadSampleData} variant="outline">
-                  Load Sample
+                  加载示例
                 </Button>
                 <Button onClick={clearAll} variant="outline">
                   <RotateCcw className="h-4 w-4 mr-2" />
-                  Clear
+                  清空
                 </Button>
               </div>
               
               <div className="space-y-4 pt-4 border-t">
-                <h3 className="font-semibold">Conversion Options</h3>
+                <h3 className="font-semibold">转换选项</h3>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="delimiter">Delimiter</Label>
+                  <Label htmlFor="delimiter">分隔符</Label>
                   <Input
                     id="delimiter"
                     value={delimiter}
                     onChange={(e) => setDelimiter(e.target.value)}
-                    placeholder="Enter delimiter"
+                    placeholder="输入分隔符"
                     className="max-w-[100px]"
                   />
                   <p className="text-sm text-muted-foreground">
-                    Common delimiters: comma (,), semicolon (;), tab (\t), pipe (|)
+                    常用分隔符：逗号 (,)、分号 (;)、制表符 (\t)、竖线 (|)
                   </p>
                 </div>
                 
@@ -232,7 +232,7 @@ export default function CsvToJsonPage() {
                     checked={hasHeader}
                     onCheckedChange={setHasHeader}
                   />
-                  <Label htmlFor="has-header">First row contains headers</Label>
+                  <Label htmlFor="has-header">第一行包含标题</Label>
                 </div>
                 
                 <div className="flex items-center space-x-2">
@@ -241,7 +241,7 @@ export default function CsvToJsonPage() {
                     checked={trimValues}
                     onCheckedChange={setTrimValues}
                   />
-                  <Label htmlFor="trim-values">Trim whitespace from values</Label>
+                  <Label htmlFor="trim-values">去除值的空白字符</Label>
                 </div>
                 
                 <Button 
@@ -249,7 +249,7 @@ export default function CsvToJsonPage() {
                   disabled={isProcessing || !csvInput.trim()}
                   className="w-full"
                 >
-                  Convert to JSON
+                  转换为JSON
                 </Button>
               </div>
             </CardContent>
@@ -260,23 +260,23 @@ export default function CsvToJsonPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileJson className="h-5 w-5" />
-                JSON Output
+                JSON输出
               </CardTitle>
               <CardDescription>
-                Generated JSON data
+                生成的JSON数据
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <Tabs defaultValue="pretty" className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="pretty">Pretty</TabsTrigger>
-                  <TabsTrigger value="compact">Compact</TabsTrigger>
+                  <TabsTrigger value="pretty">格式化</TabsTrigger>
+                  <TabsTrigger value="compact">紧凑</TabsTrigger>
                 </TabsList>
                 <TabsContent value="pretty" className="pt-4">
                   <Textarea
                     value={jsonOutput}
                     readOnly
-                    placeholder="JSON output will appear here..."
+                    placeholder="JSON输出将在此显示..."
                     className="min-h-[300px] font-mono text-sm"
                   />
                 </TabsContent>
@@ -284,7 +284,7 @@ export default function CsvToJsonPage() {
                   <Textarea
                     value={jsonOutput ? JSON.stringify(JSON.parse(jsonOutput)) : ''}
                     readOnly
-                    placeholder="JSON output will appear here..."
+                    placeholder="JSON输出将在此显示..."
                     className="min-h-[300px] font-mono text-sm"
                   />
                 </TabsContent>
@@ -297,15 +297,15 @@ export default function CsvToJsonPage() {
                   variant="outline"
                 >
                   <Download className="h-4 w-4 mr-2" />
-                  Download JSON
+                  下载JSON
                 </Button>
                 <Button
-                  onClick={() => copyToClipboard(jsonOutput, 'JSON copied to clipboard')}
+                  onClick={() => copyToClipboard(jsonOutput, 'JSON已复制到剪贴板')}
                   disabled={!jsonOutput}
                   variant="outline"
                 >
                   <Copy className="h-4 w-4 mr-2" />
-                  Copy JSON
+                  复制JSON
                 </Button>
               </div>
             </CardContent>
@@ -315,26 +315,26 @@ export default function CsvToJsonPage() {
         {/* Features */}
         <Card className="mt-6">
           <CardHeader>
-            <CardTitle>Features</CardTitle>
+            <CardTitle>功能特性</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
               <div>
-                <h4 className="font-semibold mb-2">Customizable Delimiters</h4>
+                <h4 className="font-semibold mb-2">自定义分隔符</h4>
                 <p className="text-muted-foreground">
-                  Support for comma, semicolon, tab, and custom delimiters
+                  支持逗号、分号、制表符和自定义分隔符
                 </p>
               </div>
               <div>
-                <h4 className="font-semibold mb-2">Header Row Options</h4>
+                <h4 className="font-semibold mb-2">标题行选项</h4>
                 <p className="text-muted-foreground">
-                  Convert with or without header rows for flexible output formats
+                  支持有无标题行的转换，输出格式灵活
                 </p>
               </div>
               <div>
-                <h4 className="font-semibold mb-2">Data Cleaning</h4>
+                <h4 className="font-semibold mb-2">数据清理</h4>
                 <p className="text-muted-foreground">
-                  Option to trim whitespace from values for cleaner JSON output
+                  可选择去除值的空白字符，获得更清洁的JSON输出
                 </p>
               </div>
             </div>

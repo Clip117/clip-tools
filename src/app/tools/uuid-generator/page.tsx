@@ -1,19 +1,15 @@
-/**
- * UUID Generator Tool
- * UUID生成工具
- */
-
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Copy, RefreshCw, Download, Hash, RotateCcw } from 'lucide-react';
+import { Copy, Download, Hash, RefreshCw, RotateCcw } from 'lucide-react';
 import { toast } from 'sonner';
+import { v1 as uuidv1, v4 as uuidv4 } from 'uuid';
 
 type UUIDVersion = 'v1' | 'v4' | 'v7';
 
@@ -24,73 +20,53 @@ interface GeneratedUUID {
   timestamp: string;
 }
 
-export default function UuidGeneratorPage() {
+// UUID v7 implementation (simplified)
+function uuidv7(): string {
+  const timestamp = Date.now();
+  const timestampHex = timestamp.toString(16).padStart(12, '0');
+  const randomHex = Array.from({ length: 18 }, () => 
+    Math.floor(Math.random() * 16).toString(16)
+  ).join('');
+  
+  const uuid = [
+    timestampHex.slice(0, 8),
+    timestampHex.slice(8, 12),
+    '7' + randomHex.slice(0, 3),
+    ((parseInt(randomHex.slice(3, 4), 16) & 0x3) | 0x8).toString(16) + randomHex.slice(4, 7),
+    randomHex.slice(7, 19)
+  ].join('-');
+  
+  return uuid;
+}
+
+export default function UUIDGeneratorPage() {
   const [version, setVersion] = useState<UUIDVersion>('v4');
   const [quantity, setQuantity] = useState(1);
   const [uppercase, setUppercase] = useState(false);
   const [removeDashes, setRemoveDashes] = useState(false);
   const [generatedUuids, setGeneratedUuids] = useState<GeneratedUUID[]>([]);
 
-  // Simple UUID v4 generator
-  const generateUUIDv4 = (): string => {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      const r = Math.random() * 16 | 0;
-      const v = c === 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  };
-
-  // Simple UUID v1 generator (timestamp-based)
-  const generateUUIDv1 = (): string => {
-    const timestamp = Date.now();
-    const random = Math.random().toString(16).substring(2, 15);
-    const clockSeq = Math.random().toString(16).substring(2, 6);
-    
-    // This is a simplified v1 UUID for demo purposes
-    const timeLow = (timestamp & 0xffffffff).toString(16).padStart(8, '0');
-    const timeMid = ((timestamp >> 32) & 0xffff).toString(16).padStart(4, '0');
-    const timeHigh = (0x1000 | ((timestamp >> 48) & 0x0fff)).toString(16);
-    
-    return `${timeLow}-${timeMid}-${timeHigh}-${clockSeq}-${random}`;
-  };
-
-  // Simple UUID v7 generator (timestamp-based, newer standard)
-  const generateUUIDv7 = (): string => {
-    const timestamp = Date.now();
-    const randomA = Math.random().toString(16).substring(2, 6);
-    const randomB = Math.random().toString(16).substring(2, 14);
-    
-    const timestampHex = timestamp.toString(16).padStart(12, '0');
-    const timeLow = timestampHex.substring(0, 8);
-    const timeMid = timestampHex.substring(8, 12);
-    
-    return `${timeLow}-${timeMid}-7${randomA.substring(1)}-${randomA.substring(0, 1)}${randomB.substring(0, 3)}-${randomB.substring(3)}`;
-  };
-
-  const generateUUID = (ver: UUIDVersion): string => {
-    switch (ver) {
+  const generateUUID = (version: UUIDVersion): string => {
+    switch (version) {
       case 'v1':
-        return generateUUIDv1();
+        return uuidv1();
       case 'v4':
-        return generateUUIDv4();
+        return uuidv4();
       case 'v7':
-        return generateUUIDv7();
+        return uuidv7();
       default:
-        return generateUUIDv4();
+        return uuidv4();
     }
   };
 
   const formatUUID = (uuid: string): string => {
     let formatted = uuid;
-    
     if (removeDashes) {
       formatted = formatted.replace(/-/g, '');
     }
-    
     if (uppercase) {
       formatted = formatted.toUpperCase();
     }
-    
     return formatted;
   };
 
@@ -105,66 +81,64 @@ export default function UuidGeneratorPage() {
         id: `${Date.now()}-${i}`,
         uuid: formattedUuid,
         version: version.toUpperCase(),
-        timestamp: new Date().toLocaleString()
+        timestamp: new Date().toLocaleString('zh-CN')
       });
     }
     
-    setGeneratedUuids(prev => [...newUuids, ...prev]);
-    toast.success(`Generated ${quantity} UUID${quantity > 1 ? 's' : ''}`);
+    setGeneratedUuids(newUuids);
+    toast.success(`成功生成 ${quantity} 个 UUID`);
   };
 
-  const copyToClipboard = (text: string, message: string) => {
-    navigator.clipboard.writeText(text)
-      .then(() => toast.success(message))
-      .catch(() => toast.error('Failed to copy to clipboard'));
+  const copyToClipboard = async (text: string, message: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success(message);
+    } catch {
+      toast.error('复制失败');
+    }
   };
 
   const copyAllUuids = () => {
     const allUuids = generatedUuids.map(item => item.uuid).join('\n');
-    copyToClipboard(allUuids, 'All UUIDs copied to clipboard');
+    copyToClipboard(allUuids, '所有 UUID 已复制到剪贴板');
   };
 
   const downloadUuids = () => {
-    if (generatedUuids.length === 0) {
-      toast.error('No UUIDs to download');
-      return;
-    }
-    
     const content = generatedUuids.map(item => 
-      `${item.uuid} (${item.version} - ${item.timestamp})`
+      `${item.uuid} (${item.version}, ${item.timestamp})`
     ).join('\n');
     
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `uuids-${new Date().toISOString().split('T')[0]}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `uuids-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
-    toast.success('UUIDs downloaded successfully');
+    toast.success('UUID 文件下载成功');
   };
 
   const clearAll = () => {
     setGeneratedUuids([]);
-    toast.success('All UUIDs cleared');
+    toast.success('所有 UUID 已清除');
   };
 
   const versionDescriptions = {
-    v1: 'Timestamp and MAC address based (not recommended for security)',
-    v4: 'Random or pseudo-random (most commonly used)',
-    v7: 'Timestamp-based with improved entropy (newest standard)'
+    v1: '基于时间戳和 MAC 地址（不推荐用于安全场景）',
+    v4: '随机或伪随机生成（最常用）',
+    v7: '基于时间戳的改进版本（最新标准）'
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">UUID Generator</h1>
+          <h1 className="text-4xl font-bold mb-4">UUID 生成器</h1>
           <p className="text-muted-foreground text-lg">
-            Generate universally unique identifiers (UUIDs) in various formats
+            生成各种格式的通用唯一标识符 (UUID)
           </p>
         </div>
 
@@ -173,37 +147,37 @@ export default function UuidGeneratorPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Hash className="h-5 w-5" />
-              Generator Settings
+              生成器设置
             </CardTitle>
             <CardDescription>
-              Configure your UUID generation preferences
+              配置您的 UUID 生成偏好
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="version">UUID Version</Label>
+                <Label htmlFor="version">UUID 版本</Label>
                 <Select value={version} onValueChange={(value: UUIDVersion) => setVersion(value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select UUID version" />
+                    <SelectValue placeholder="选择 UUID 版本" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="v1">
                       <div>
                         <div className="font-medium">UUID v1</div>
-                        <div className="text-xs text-muted-foreground">Timestamp + MAC</div>
+                        <div className="text-xs text-muted-foreground">时间戳 + MAC</div>
                       </div>
                     </SelectItem>
                     <SelectItem value="v4">
                       <div>
                         <div className="font-medium">UUID v4</div>
-                        <div className="text-xs text-muted-foreground">Random (Recommended)</div>
+                        <div className="text-xs text-muted-foreground">随机（推荐）</div>
                       </div>
                     </SelectItem>
                     <SelectItem value="v7">
                       <div>
                         <div className="font-medium">UUID v7</div>
-                        <div className="text-xs text-muted-foreground">Timestamp + Random (New)</div>
+                        <div className="text-xs text-muted-foreground">时间戳 + 随机（新版）</div>
                       </div>
                     </SelectItem>
                   </SelectContent>
@@ -214,7 +188,7 @@ export default function UuidGeneratorPage() {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="quantity">Quantity</Label>
+                <Label htmlFor="quantity">数量</Label>
                 <Input
                   id="quantity"
                   type="number"
@@ -224,13 +198,13 @@ export default function UuidGeneratorPage() {
                   max="100"
                 />
                 <p className="text-sm text-muted-foreground">
-                  Generate 1-100 UUIDs at once
+                  一次生成 1-100 个 UUID
                 </p>
               </div>
             </div>
             
             <div className="space-y-4">
-              <h3 className="font-semibold">Formatting Options</h3>
+              <h3 className="font-semibold">格式选项</h3>
               <div className="flex flex-wrap gap-6">
                 <div className="flex items-center space-x-2">
                   <Switch
@@ -238,7 +212,7 @@ export default function UuidGeneratorPage() {
                     checked={uppercase}
                     onCheckedChange={setUppercase}
                   />
-                  <Label htmlFor="uppercase">Uppercase</Label>
+                  <Label htmlFor="uppercase">大写</Label>
                 </div>
                 
                 <div className="flex items-center space-x-2">
@@ -247,7 +221,7 @@ export default function UuidGeneratorPage() {
                     checked={removeDashes}
                     onCheckedChange={setRemoveDashes}
                   />
-                  <Label htmlFor="remove-dashes">Remove dashes</Label>
+                  <Label htmlFor="remove-dashes">移除连字符</Label>
                 </div>
               </div>
             </div>
@@ -255,21 +229,21 @@ export default function UuidGeneratorPage() {
             <div className="flex gap-2">
               <Button onClick={handleGenerate}>
                 <RefreshCw className="h-4 w-4 mr-2" />
-                Generate UUID{quantity > 1 ? 's' : ''}
+                生成 UUID{quantity > 1 ? 's' : ''}
               </Button>
               {generatedUuids.length > 0 && (
                 <>
                   <Button onClick={copyAllUuids} variant="outline">
                     <Copy className="h-4 w-4 mr-2" />
-                    Copy All
+                    复制全部
                   </Button>
                   <Button onClick={downloadUuids} variant="outline">
                     <Download className="h-4 w-4 mr-2" />
-                    Download
+                    下载
                   </Button>
                   <Button onClick={clearAll} variant="outline">
                     <RotateCcw className="h-4 w-4 mr-2" />
-                    Clear
+                    清除
                   </Button>
                 </>
               )}
@@ -281,9 +255,9 @@ export default function UuidGeneratorPage() {
         {generatedUuids.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>Generated UUIDs</CardTitle>
+              <CardTitle>生成的 UUID</CardTitle>
               <CardDescription>
-                {generatedUuids.length} UUID{generatedUuids.length > 1 ? 's' : ''} generated
+                已生成 {generatedUuids.length} 个 UUID{generatedUuids.length > 1 ? 's' : ''}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -299,7 +273,7 @@ export default function UuidGeneratorPage() {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => copyToClipboard(item.uuid, 'UUID copied to clipboard')}
+                      onClick={() => copyToClipboard(item.uuid, 'UUID 已复制到剪贴板')}
                       className="ml-2 flex-shrink-0"
                     >
                       <Copy className="h-4 w-4" />
@@ -314,26 +288,26 @@ export default function UuidGeneratorPage() {
         {/* Information */}
         <Card className="mt-6">
           <CardHeader>
-            <CardTitle>UUID Information</CardTitle>
+            <CardTitle>UUID 信息</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
               <div>
                 <h4 className="font-semibold mb-2">UUID v1</h4>
                 <p className="text-muted-foreground">
-                  Based on timestamp and MAC address. Predictable and may leak information.
+                  基于时间戳和 MAC 地址。可预测且可能泄露信息。
                 </p>
               </div>
               <div>
                 <h4 className="font-semibold mb-2">UUID v4</h4>
                 <p className="text-muted-foreground">
-                  Randomly generated. Most widely used and recommended for general purposes.
+                  随机生成。使用最广泛，推荐用于一般用途。
                 </p>
               </div>
               <div>
                 <h4 className="font-semibold mb-2">UUID v7</h4>
                 <p className="text-muted-foreground">
-                  Timestamp-based with improved randomness. Good for database performance.
+                  基于时间戳的改进随机性。有利于数据库性能。
                 </p>
               </div>
             </div>
