@@ -129,8 +129,7 @@ export const TOOLS: Tool[] = [
     description: '密码生成器',
     category: TOOL_CATEGORIES.ENCODING,
     icon: '🔑',
-    path: '/tools/password-generator',
-    featured: true
+    path: '/tools/password-generator'
   },
   {
     id: 'qr-generator',
