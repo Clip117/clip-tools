@@ -7,7 +7,6 @@
 
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import ShinyText from '@/components/ShinyText';
 import { Tool } from '@/types/tools';
 import { cn } from '@/lib/utils';
