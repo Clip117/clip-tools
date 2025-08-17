@@ -134,11 +134,26 @@ export default function Home() {
         <div className="container mx-auto px-4 h-full relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center h-full">
             {/* Left Side - Welcome Text */}
-            {/* Left Side - Welcome Text */}
             <div className="space-y-8 flex flex-col justify-center">
-              <div className="space-y-6">
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight">
-                  <span className="block drop-shadow-lg" style={{textShadow: '0 0 20px hsl(var(--background)), 0 0 40px hsl(var(--background)), 0 2px 4px rgba(0,0,0,0.1)'}}>
+              {/* 小屏幕居中，大屏幕左对齐 */}
+              <div className="space-y-6 text-center lg:text-left">
+                <h1 
+                  className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight select-none"
+                  style={{
+                    userSelect: 'none',
+                    WebkitUserSelect: 'none',
+                    MozUserSelect: 'none',
+                    msUserSelect: 'none'
+                  }}
+                  onDoubleClick={(e) => e.preventDefault()}
+                >
+                  <span 
+                    className="block drop-shadow-lg" 
+                    style={{
+                      textShadow: '0 0 20px hsl(var(--background)), 0 0 40px hsl(var(--background)), 0 2px 4px rgba(0,0,0,0.1)',
+                      userSelect: 'none'
+                    }}
+                  >
                     <TextType 
                       text="Welcome to"
                       as="span"
@@ -149,7 +164,13 @@ export default function Home() {
                       className="bg-gradient-to-r from-foreground/80 via-muted-foreground to-foreground/60 bg-clip-text text-transparent"
                     />
                   </span>
-                  <span className="block drop-shadow-lg" style={{textShadow: '0 0 20px hsl(var(--background)), 0 0 40px hsl(var(--background))'}}>
+                  <span 
+                    className="block drop-shadow-lg" 
+                    style={{
+                      textShadow: '0 0 20px hsl(var(--background)), 0 0 40px hsl(var(--background))',
+                      userSelect: 'none'
+                    }}
+                  >
                     <TextType 
                       text="CLIP Tools"
                       as="span"
@@ -164,22 +185,23 @@ export default function Home() {
                     />
                   </span>
                 </h1>
-              
               </div>
               
-              {/* 搜索框 */}
-              <div className="max-w-md">
-                <SearchBox 
-                  onSearchResults={handleSearchResults}
-                  placeholder="搜索工具名称、描述或分类..."
-                  className="mb-4"
-                />
+              {/* 搜索框 - 小屏幕居中，大屏幕左对齐 */}
+              <div className="flex justify-center lg:justify-start">
+                <div className="max-w-md w-full">
+                  <SearchBox 
+                    onSearchResults={handleSearchResults}
+                    placeholder="搜索工具名称、描述或分类..."
+                    className="mb-4"
+                  />
+                </div>
               </div>
               
-              {/* Search Results Info */}
+              {/* Search Results Info - 小屏幕居中，大屏幕左对齐 */}
               {isSearching && (
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-foreground flex items-center gap-2" style={{textShadow: '0 0 15px hsl(var(--background)), 0 0 30px hsl(var(--background))'}}>
+                <div className="space-y-2 text-center lg:text-left">
+                  <h3 className="text-lg font-semibold text-foreground flex items-center justify-center lg:justify-start gap-2" style={{textShadow: '0 0 15px hsl(var(--background)), 0 0 30px hsl(var(--background))'}}>
                     <Search className="w-5 h-5 text-primary" />
                     搜索结果
                   </h3>
@@ -188,7 +210,7 @@ export default function Home() {
                   </p>
                 </div>
               )}
-            </div>            {/* Right Side - Infinite Scroll Tools */}
+            </div>            {/* Right Side - Infinite Scroll Tools - 小屏幕时隐藏 */}
             <div className="hidden lg:flex justify-center items-center">
               <div style={{height: '85vh', width: '600px', position: 'relative'}}>
                 <InfiniteScroll
