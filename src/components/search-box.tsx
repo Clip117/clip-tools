@@ -105,7 +105,7 @@ export function SearchBox({
                 className="block p-2 rounded-md hover:bg-muted transition-colors"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-lg">{tool.icon}</span>
+                  <tool.icon className="w-5 h-5 text-primary" />
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-sm truncate">{tool.name}</div>
                     <div className="text-xs text-muted-foreground truncate">{tool.description}</div>
