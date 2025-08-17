@@ -3,6 +3,34 @@
  * BentoGrid组件的布局配置
  */
 
+import { LucideIcon } from 'lucide-react';
+import { 
+  Palette, 
+  Zap, 
+  Settings, 
+  Lightbulb, 
+  Rocket, 
+  Sparkles, 
+  Target, 
+  Flame,
+  Gem, 
+  Star, 
+  Tent, 
+  Drama, 
+  Music, 
+  Clapperboard, 
+  Smartphone, 
+  Hexagon,
+  Dice1, 
+  PartyPopper, 
+  Heart, 
+  Gift, 
+  Rainbow, 
+  StarIcon, 
+  Sparkle, 
+  Sun
+} from 'lucide-react';
+
 export interface LayoutRule {
   condition: (index: number) => boolean;
   classes: string;
@@ -12,7 +40,7 @@ export interface LayoutRule {
 export interface DecorativeConfig {
   enabled: boolean;
   maxCount: number;
-  icons: string[];
+  icons: LucideIcon[];
   fillStrategy: 'auto' | 'fixed';
 }
 
@@ -44,9 +72,9 @@ export const DEFAULT_LAYOUT_CONFIG: BentoGridConfig = {
     maxCount: 50, // 设置一个较大的默认值，实际数量由页面逻辑动态控制
     fillStrategy: 'auto',
     icons: [
-      '🎨', '⚡', '🔧', '💡', '🚀', '✨', '🎯', '🔥',
-      '💎', '🌟', '🎪', '🎭', '🎵', '🎬', '📱', '🔮',
-      '🎲', '🎊', '🎈', '🎁', '🌈', '⭐', '💫', '🔆'
+      Palette, Zap, Settings, Lightbulb, Rocket, Sparkles, Target, Flame,
+      Gem, Star, Tent, Drama, Music, Clapperboard, Smartphone, Hexagon,
+      Dice1, PartyPopper, Heart, Gift, Rainbow, StarIcon, Sparkle, Sun
     ]
   },
   responsive: {
@@ -66,7 +94,7 @@ export const DEFAULT_LAYOUT_CONFIG: BentoGridConfig = {
 };
 
 // 生成稳定的随机图标
-export const generateStableIcon = (seed: string, icons: string[]): string => {
+export const generateStableIcon = (seed: string, icons: LucideIcon[]): LucideIcon => {
   let hash = 0;
   for (let i = 0; i < seed.length; i++) {
     const char = seed.charCodeAt(i);

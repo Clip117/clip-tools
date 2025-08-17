@@ -196,7 +196,7 @@ export function DevTools({ tools, decorativeCount, className }: DevToolsProps) {
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    console.log('🔍 完整性能报告:', {
+                    console.log('� 完整性能报告:', {
                       performanceReport,
                       currentMetrics,
                       analysis,

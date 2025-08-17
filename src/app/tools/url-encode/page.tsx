@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Copy, RotateCcw, ArrowUpDown } from 'lucide-react';
+import { Copy, RotateCcw, ArrowUpDown, Link } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function URLEncodePage() {
@@ -143,9 +143,10 @@ export default function URLEncodePage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
-          🔗 URL编码解码
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+          <Link className="w-10 h-10 text-primary" />
+          URL编码解码
         </h1>
         <p className="text-muted-foreground">
           对URL进行编码和解码处理，支持中文字符和特殊字符

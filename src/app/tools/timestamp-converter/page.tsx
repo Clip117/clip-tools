@@ -134,7 +134,10 @@ export default function TimestampConverterPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">时间戳转换器</h1>
+          <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+            <Clock className="w-10 h-10 text-primary" />
+            时间戳转换器
+          </h1>
           <p className="text-muted-foreground text-lg">
             在时间戳和人类可读日期之间进行转换
           </p>

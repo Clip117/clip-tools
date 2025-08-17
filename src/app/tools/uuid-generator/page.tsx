@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Copy, Download, Hash, RefreshCw, RotateCcw } from 'lucide-react';
+import { Copy, Download, Hash, RefreshCw, RotateCcw, Fingerprint } from 'lucide-react';
 import { toast } from 'sonner';
 import { v1 as uuidv1, v4 as uuidv4 } from 'uuid';
 
@@ -136,7 +136,10 @@ export default function UUIDGeneratorPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">UUID 生成器</h1>
+          <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+            <Fingerprint className="w-10 h-10 text-primary" />
+            UUID 生成器
+          </h1>
           <p className="text-muted-foreground text-lg">
             生成各种格式的通用唯一标识符 (UUID)
           </p>

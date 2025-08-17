@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Copy, RotateCcw, Download, Upload } from 'lucide-react';
+import { Copy, RotateCcw, Download, Upload, Settings } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function JsonPrettyPage() {
@@ -109,9 +109,10 @@ export default function JsonPrettyPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
-          🔧 JSON 格式化工具
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+          <Settings className="w-10 h-10 text-primary" />
+          JSON 格式化工具
         </h1>
         <p className="text-muted-foreground">
           美化、压缩和验证JSON数据格式

@@ -100,7 +100,7 @@ export function useBentoGridPerformance(
       if (enableLogging) {
         if (hasPerformanceIssuesRef.current) {
           console.warn(
-            `⚠️ BentoGrid渲染时间过长: ${renderTime.toFixed(2)}ms (阈值: ${performanceThreshold}ms)`
+            `⚠ BentoGrid渲染时间过长: ${renderTime.toFixed(2)}ms (阈值: ${performanceThreshold}ms)`
           );
         } else {
           console.log(`✅ BentoGrid渲染时间: ${renderTime.toFixed(2)}ms`);

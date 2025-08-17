@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { RotateCcw, Copy, FileText, AlignJustify, Type } from 'lucide-react';
+import { RotateCcw, Copy, FileText, AlignJustify, Type, Hash } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface TextStats {
@@ -157,7 +157,10 @@ export default function TextCounterPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">文本计数器</h1>
+          <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+            <Hash className="w-10 h-10 text-primary" />
+            文本计数器
+          </h1>
           <p className="text-muted-foreground text-lg">
             统计文本中的字符、单词、句子等信息
           </p>

@@ -4,6 +4,25 @@
  */
 
 import { Tool, ToolCategory, TOOL_CATEGORIES } from '@/types/tools';
+import { 
+  FileText, 
+  Settings, 
+  FileCode, 
+  Search, 
+  Hash, 
+  BarChart3, 
+  CheckSquare, 
+  Tag, 
+  Palette, 
+  Clock, 
+  Link, 
+  Lock, 
+  Key, 
+  Smartphone, 
+  Shield, 
+  Fingerprint, 
+  BookOpen 
+} from 'lucide-react';
 
 export const TOOLS: Tool[] = [
   // Text Processing 文本处理
@@ -12,7 +31,7 @@ export const TOOLS: Tool[] = [
     name: 'Word Count',
     description: '实时统计文本字数',
     category: TOOL_CATEGORIES.TEXT,
-    icon: '📝',
+    icon: FileText,
     path: '/tools/word-count',
     featured: true
   },
@@ -21,7 +40,7 @@ export const TOOLS: Tool[] = [
     name: 'JSON Formatter',
     description: 'JSON 美化 / 压缩',
     category: TOOL_CATEGORIES.TEXT,
-    icon: '🔧',
+    icon: Settings,
     path: '/tools/json-pretty',
     featured: true
   },
@@ -30,7 +49,7 @@ export const TOOLS: Tool[] = [
     name: 'Markdown Preview',
     description: 'Markdown实时预览工具',
     category: TOOL_CATEGORIES.TEXT,
-    icon: '📄',
+    icon: FileCode,
     path: '/tools/markdown-preview',
     featured: true
   },
@@ -39,7 +58,7 @@ export const TOOLS: Tool[] = [
     name: 'Text Diff',
     description: '文本差异对比',
     category: TOOL_CATEGORIES.TEXT,
-    icon: '🔍',
+    icon: Search,
     path: '/tools/diff-viewer'
   },
   {
@@ -47,7 +66,7 @@ export const TOOLS: Tool[] = [
     name: 'Text Counter',
     description: '文本计数工具',
     category: TOOL_CATEGORIES.TEXT,
-    icon: '🔢',
+    icon: Hash,
     path: '/tools/text-counter'
   },
   {
@@ -55,7 +74,7 @@ export const TOOLS: Tool[] = [
     name: 'CSV to JSON',
     description: 'CSV转JSON工具',
     category: TOOL_CATEGORIES.TEXT,
-    icon: '📊',
+    icon: BarChart3,
     path: '/tools/csv-to-json'
   },
   {
@@ -63,7 +82,7 @@ export const TOOLS: Tool[] = [
     name: 'Regex Tester',
     description: '正则表达式测试',
     category: TOOL_CATEGORIES.TEXT,
-    icon: '🔤',
+    icon: CheckSquare,
     path: '/tools/regex-tester',
     featured: true
   },
@@ -72,18 +91,9 @@ export const TOOLS: Tool[] = [
     name: 'HTML Entities',
     description: 'HTML实体编码/解码',
     category: TOOL_CATEGORIES.TEXT,
-    icon: '🏷️',
+    icon: Tag,
     path: '/tools/html-entities'
   },
-  // 删除下面这个 json-beautify 工具配置
-  // {
-  //   id: 'json-beautify',
-  //   name: 'JSON Beautifier',
-  //   description: 'JSON美化工具',
-  //   category: TOOL_CATEGORIES.TEXT,
-  //   icon: '✨',
-  //   path: '/tools/json-beautify'
-  // },
 
   // Color/Design 颜色/设计
   {
@@ -91,7 +101,7 @@ export const TOOLS: Tool[] = [
     name: 'Color Picker',
     description: '取色并复制十六进制',
     category: TOOL_CATEGORIES.COLOR,
-    icon: '🎨',
+    icon: Palette,
     path: '/tools/color-picker',
     featured: true
   },
@@ -102,7 +112,7 @@ export const TOOLS: Tool[] = [
     name: 'Timestamp Converter',
     description: '时间戳转换工具',
     category: TOOL_CATEGORIES.DATE,
-    icon: '⏰',
+    icon: Clock,
     path: '/tools/timestamp-converter'
   },
 
@@ -112,7 +122,7 @@ export const TOOLS: Tool[] = [
     name: 'URL Encode/Decode',
     description: 'URL编码解码',
     category: TOOL_CATEGORIES.ENCODING,
-    icon: '🔗',
+    icon: Link,
     path: '/tools/url-encode'
   },
   {
@@ -120,7 +130,7 @@ export const TOOLS: Tool[] = [
     name: 'Base64 Encode/Decode',
     description: 'Base64编码解码',
     category: TOOL_CATEGORIES.ENCODING,
-    icon: '🔐',
+    icon: Lock,
     path: '/tools/base64'
   },
   {
@@ -128,7 +138,7 @@ export const TOOLS: Tool[] = [
     name: 'Password Generator',
     description: '密码生成器',
     category: TOOL_CATEGORIES.ENCODING,
-    icon: '🔑',
+    icon: Key,
     path: '/tools/password-generator'
   },
   {
@@ -136,7 +146,7 @@ export const TOOLS: Tool[] = [
     name: 'QR Maker',
     description: '二维码生成',
     category: TOOL_CATEGORIES.ENCODING,
-    icon: '📱',
+    icon: Smartphone,
     path: '/tools/qr-generator',
     featured: true
   },
@@ -145,7 +155,7 @@ export const TOOLS: Tool[] = [
     name: 'Hash Generator',
     description: '哈希生成工具',
     category: TOOL_CATEGORIES.ENCODING,
-    icon: '🔐',
+    icon: Shield,
     path: '/tools/hash-generator'
   },
   {
@@ -153,7 +163,7 @@ export const TOOLS: Tool[] = [
     name: 'UUID Generator',
     description: 'UUID生成工具',
     category: TOOL_CATEGORIES.RANDOM,
-    icon: '🆔',
+    icon: Fingerprint,
     path: '/tools/uuid-generator'
   },
   // 在 TOOLS 数组中添加新工具
@@ -162,7 +172,7 @@ export const TOOLS: Tool[] = [
     name: 'Knowledge Cards',
     description: '知识卡片管理工具',
     category: TOOL_CATEGORIES.TEXT,
-    icon: '📚',
+    icon: BookOpen,
     path: '/tools/knowledge-cards',
     featured: true
   },

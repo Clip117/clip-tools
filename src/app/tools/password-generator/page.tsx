@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { Slider } from '@/components/ui/slider';
-import { Copy, RefreshCw, Shield, Eye, EyeOff } from 'lucide-react';
+import { Copy, RefreshCw, Shield, Eye, EyeOff, Key } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface PasswordOptions {
@@ -98,7 +98,16 @@ export default function PasswordGeneratorPage() {
     }
     
     return charset;
-  }, [options, customChars, charSets.ambiguous, charSets.lowercase, charSets.numbers, charSets.similar, charSets.symbols, charSets.uppercase]);
+  }, [
+    options, 
+    customChars, 
+    charSets.ambiguous, 
+    charSets.lowercase, 
+    charSets.numbers, 
+    charSets.similar, 
+    charSets.symbols, 
+    charSets.uppercase
+  ]);
 
   // Generate single password
   const generatePassword = useCallback(() => {
@@ -144,7 +153,16 @@ export default function PasswordGeneratorPage() {
     
     const { strength, entropy } = calculateStrength(password);
     return { password, strength, entropy };
-  }, [options, customChars, getCharacterSet, calculateStrength]);
+  }, [
+    options, 
+    customChars, 
+    getCharacterSet, 
+    calculateStrength,
+    charSets.lowercase,
+    charSets.numbers, 
+    charSets.symbols, 
+    charSets.uppercase
+  ]);
 
   // Generate multiple passwords
   const generateMultiplePasswords = (count: number = 5) => {
@@ -188,9 +206,10 @@ export default function PasswordGeneratorPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
-          🔐 密码生成器
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+          <Key className="w-10 h-10 text-primary" />
+          密码生成器
         </h1>
         <p className="text-muted-foreground">
           生成安全的随机密码，支持多种自定义选项

@@ -3,12 +3,14 @@
  * 工具类型和接口定义
  */
 
+import { LucideIcon } from 'lucide-react';
+
 export interface Tool {
   id: string;
   name: string;
   description: string;
   category: string;
-  icon: string;
+  icon: LucideIcon;
   path: string;
   featured?: boolean;
 }

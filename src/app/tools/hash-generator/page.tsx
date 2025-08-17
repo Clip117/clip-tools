@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Copy, Hash, RotateCcw } from 'lucide-react';
+import { Copy, Hash, RotateCcw, Shield } from 'lucide-react';
 import { toast } from 'sonner';
 
 // Hash functions using Web Crypto API and custom implementations
@@ -194,7 +194,10 @@ export default function HashGeneratorPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">🔐 哈希生成器</h1>
+          <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+            <Shield className="w-10 h-10 text-primary" />
+            哈希生成器
+          </h1>
           <p className="text-muted-foreground text-lg">
             为任何文本生成加密哈希和校验和
           </p>

@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { Copy, RotateCcw } from 'lucide-react';
+import { Copy, RotateCcw, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function WordCountPage() {
@@ -48,9 +48,10 @@ export default function WordCountPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
-          📝 字数统计工具
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+          <FileText className="w-10 h-10 text-primary" />
+          字数统计工具
         </h1>
         <p className="text-muted-foreground">
           实时统计文本的字符数、单词数、行数等信息

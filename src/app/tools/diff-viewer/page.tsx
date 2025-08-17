@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Copy, Download, Diff } from 'lucide-react';
+import { Copy, Download, Diff, Search } from 'lucide-react';
 import { toast } from 'sonner';
 
 // Simple diff algorithm to find differences between two texts
@@ -77,7 +77,10 @@ export default function DiffViewerPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">📝 文本差异对比工具</h1>
+          <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+            <Search className="w-10 h-10 text-primary" />
+            文本差异对比工具
+          </h1>
           <p className="text-muted-foreground text-lg">
             比较两个文本并高亮显示差异
           </p>

@@ -8,6 +8,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import ShinyText from '@/components/ShinyText';
 import { Tool } from '@/types/tools';
 import { cn } from '@/lib/utils';
 
@@ -18,6 +19,8 @@ interface ToolCardProps {
 }
 
 export function ToolCard({ tool, className, featured = false }: ToolCardProps) {
+  const IconComponent = tool.icon;
+  
   return (
     <Link href={tool.path} className="block group">
       <Card 
@@ -30,11 +33,20 @@ export function ToolCard({ tool, className, featured = false }: ToolCardProps) {
       >
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <div className="text-2xl mb-2">{tool.icon}</div>
+            <div className="text-2xl mb-2">
+              <IconComponent 
+                className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors" 
+              />
+            </div>
             {tool.featured && (
-              <Badge variant="secondary" className="text-xs">
-                推荐
-              </Badge>
+              <div className="px-2 py-1 bg-secondary rounded-md flex items-center justify-center">
+                <ShinyText 
+                  text="推荐" 
+                  disabled={false} 
+                  speed={3} 
+                  className="text-xs font-medium"
+                />
+              </div>
             )}
           </div>
           <CardTitle className="text-lg leading-tight group-hover:text-primary transition-colors">

@@ -13,7 +13,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Upload, Download, Copy, RotateCcw, FileJson, FileSpreadsheet } from 'lucide-react';
+import { Upload, Download, Copy, RotateCcw, FileJson, FileSpreadsheet, BarChart3 } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function CsvToJsonPage() {
@@ -159,7 +159,10 @@ export default function CsvToJsonPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">📊 CSV转JSON转换器</h1>
+          <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+            <BarChart3 className="w-10 h-10 text-primary" />
+            CSV转JSON转换器
+          </h1>
           <p className="text-muted-foreground text-lg">
             将CSV数据转换为JSON格式，支持自定义选项
           </p>

@@ -12,7 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Copy, RotateCcw, Code, FileText, ArrowRightLeft } from 'lucide-react';
+import { Copy, RotateCcw, Code, FileText, ArrowRightLeft, Tag } from 'lucide-react';
 import { toast } from 'sonner';
 
 type EncodingType = 'named' | 'numeric' | 'hex';
@@ -224,9 +224,10 @@ export default function HtmlEntitiesPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
-          🏷️ HTML实体编码/解码
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+          <Tag className="w-10 h-10 text-primary" />
+          HTML实体编码/解码
         </h1>
         <p className="text-muted-foreground">
           将特殊字符转换为HTML实体或反向解码

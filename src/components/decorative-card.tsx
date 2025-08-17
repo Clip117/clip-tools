@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { generateStableIcon, type DecorativeConfig } from '@/config/layout';
+import { Package } from 'lucide-react';
 
 interface DecorativeCardProps {
   className?: string;
@@ -24,7 +25,7 @@ export function DecorativeCard({
   index 
 }: DecorativeCardProps) {
   // 使用稳定的随机图标生成
-  const stableIcon = useMemo(() => {
+  const IconComponent = useMemo(() => {
     return generateStableIcon(`${seed}-${index}`, config.icons);
   }, [seed, index, config.icons]);
 
@@ -51,11 +52,11 @@ export function DecorativeCard({
     >
       <div className="text-center opacity-60 group-hover:opacity-80 transition-opacity">
         <div 
-          className="text-4xl mb-2 group-hover:scale-110 transition-transform duration-200"
+          className="text-4xl mb-2 group-hover:scale-110 transition-transform duration-200 flex justify-center"
           role="img"
-          aria-label={`装饰图标 ${stableIcon}`}
+          aria-label={`装饰图标`}
         >
-          {stableIcon}
+          <IconComponent className="w-10 h-10 text-muted-foreground" />
         </div>
         <p className="text-xs text-muted-foreground font-medium px-2">
           {message}
@@ -77,7 +78,9 @@ export function SafeDecorativeCard(props: DecorativeCardProps) {
         props.className
       )}>
         <div className="text-center opacity-40">
-          <div className="text-2xl mb-1">📦</div>
+          <div className="text-2xl mb-1 flex justify-center">
+            <Package className="w-6 h-6 text-muted-foreground" />
+          </div>
           <p className="text-xs text-muted-foreground">加载中...</p>
         </div>
       </Card>

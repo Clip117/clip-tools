@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Copy, Download, Eye, FileText } from 'lucide-react';
+import { Copy, Download, Eye, FileText, FileCode } from 'lucide-react';
 import { toast } from 'sonner';
 
 // Simple markdown parser for basic formatting
@@ -78,7 +78,10 @@ export default function MarkdownPreviewPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">Markdown 预览器</h1>
+          <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+            <FileCode className="w-10 h-10 text-primary" />
+            Markdown 预览器
+          </h1>
           <p className="text-muted-foreground text-lg">
             实时 Markdown 转 HTML 预览，支持复制和下载功能
           </p>

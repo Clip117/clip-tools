@@ -35,7 +35,7 @@ export class PerformanceMonitor {
       
       // 开发环境下输出性能信息
       if (process.env.NODE_ENV === 'development') {
-        console.log(`🚀 ${name} 渲染时间: ${renderTime.toFixed(2)}ms`);
+        console.log(`⚡ ${name} 渲染时间: ${renderTime.toFixed(2)}ms`);
       }
     };
   }

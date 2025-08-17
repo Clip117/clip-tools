@@ -221,7 +221,7 @@ export function BentoGrid({
       const suggestions = getOptimizationSuggestions(analysis);
       
       if (suggestions.length > 1 || hasPerformanceIssues) {
-        console.group('🔍 BentoGrid 性能分析');
+        console.group('� BentoGrid 性能分析');
         console.log('布局分析:', analysis);
         console.log('优化建议:', suggestions);
         if (hasPerformanceIssues) {

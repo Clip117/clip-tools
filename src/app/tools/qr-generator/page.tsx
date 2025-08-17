@@ -6,13 +6,14 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Download, QrCode, RotateCcw } from 'lucide-react';
+import { Download, QrCode, RotateCcw, Smartphone, Palette, ScanLine } from 'lucide-react';
 import { toast } from 'sonner';
 import QRCode from 'qrcode';
 
@@ -142,9 +143,10 @@ export default function QRGeneratorPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
-          📱 QR码生成器
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+          <Smartphone className="w-10 h-10 text-primary" />
+          QR码生成器
         </h1>
         <p className="text-muted-foreground">
           生成自定义QR码，支持多种内容类型和样式设置
@@ -343,9 +345,11 @@ export default function QRGeneratorPage() {
               <div className="flex justify-center">
                 {qrDataURL ? (
                   <div className="border rounded-lg p-4 bg-white">
-                    <img
+                    <Image
                       src={qrDataURL}
                       alt="Generated QR Code"
+                      width={300}
+                      height={300}
                       className="max-w-full h-auto"
                       style={{ maxWidth: '300px' }}
                     />
@@ -375,7 +379,10 @@ export default function QRGeneratorPage() {
             <CardContent className="space-y-3 text-sm">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <div className="font-medium mb-1">📱 扫描建议</div>
+                  <div className="font-medium mb-1 flex items-center gap-2">
+                    <ScanLine className="w-4 h-4 text-primary" />
+                    扫描建议
+                  </div>
                   <ul className="text-muted-foreground space-y-1">
                     <li>• 确保足够的对比度</li>
                     <li>• 保持适当的尺寸</li>
@@ -383,7 +390,10 @@ export default function QRGeneratorPage() {
                   </ul>
                 </div>
                 <div>
-                  <div className="font-medium mb-1">🎨 设计建议</div>
+                  <div className="font-medium mb-1 flex items-center gap-2">
+                    <Palette className="w-4 h-4 text-primary" />
+                    设计建议
+                  </div>
                   <ul className="text-muted-foreground space-y-1">
                     <li>• 使用高对比度颜色</li>
                     <li>• 保留足够的边距</li>

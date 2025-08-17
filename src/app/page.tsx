@@ -10,10 +10,14 @@ import { BentoGrid } from '@/components/bento-grid';
 import { CategoryFilter } from '@/components/category-filter';
 import { DevTools, SimpleDevTools } from '@/components/dev-tools';
 import { TOOLS, getFeaturedTools, getToolsByCategory } from '@/data/tools';
-import { Badge } from '@/components/ui/badge';
 import { DEFAULT_LAYOUT_CONFIG, calculateLayoutClasses } from '@/config/layout';
 import { SearchBox } from '@/components/search-box';
 import { Tool } from '@/types/tools';
+import { ToolCard } from '@/components/tool-card';
+import InfiniteScroll from '@/components/infinite-scroll';
+import DotGrid from '@/components/DotGrid';
+import TextType from '@/components/TextType';
+import { Star, BookOpen, Search, Heart } from 'lucide-react';
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -78,7 +82,7 @@ export default function Home() {
     // 基于工具数量动态计算装饰卡片数量，约为工具数量的1/4
     const dynamicMaxCount = Math.ceil(displayTools.length / 4);
     return Math.min(decorativeConfig.maxCount, dynamicMaxCount);
-  }, [displayTools.length, displayTools]);
+  }, [displayTools]);
   
   // 错误处理
   const handleBentoGridError = (error: Error) => {
@@ -86,106 +90,199 @@ export default function Home() {
     // 可以在这里添加错误上报逻辑
   };
 
+  // 准备InfiniteScroll的工具卡片数据 - 始终显示所有工具，不受搜索影响
+  const infiniteScrollItems = useMemo(() => {
+    return TOOLS.map(tool => ({
+      content: <ToolCard tool={tool} className="w-full" />
+    }));
+  }, []);
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Hero Section */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-          CLIP Tools
-        </h1>
-        <p className="text-xl text-muted-foreground mb-6 max-w-2xl mx-auto">
-          一站式在线工具集合，提供文本处理、图片编辑、颜色设计等20+实用工具
-        </p>
-        <div className="flex items-center justify-center gap-2 flex-wrap mb-6">
-          <Badge variant="secondary">纯前端</Badge>
-          <Badge variant="secondary">无需注册</Badge>
-          <Badge variant="secondary">开源免费</Badge>
-          <Badge variant="secondary">响应式设计</Badge>
-        </div>
-        
-        {/* 搜索框 */}
-        <div className="max-w-md mx-auto">
-          <SearchBox 
-            onSearchResults={handleSearchResults} 
-            placeholder="搜索工具名称、描述或分类..."
-            className="mb-2"
-          />
+    <div className="min-h-screen relative">
+      {/* Global DotGrid Background */}
+      <div style={{ 
+        width: '100%', 
+        height: '100%', 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        zIndex: -1 
+      }}>
+        <DotGrid
+          dotSize={3}
+          gap={25}
+          baseColor="#000000"
+          activeColor="#ffffff"
+          baseOpacity={0.15}
+          activeOpacity={0.4}
+          proximity={150}
+          shockRadius={300}
+          shockStrength={8}
+          resistance={500}
+          returnDuration={1.5}
+        />
+      </div>
+
+      {/* Top gradient overlay for smooth transition */}
+      <div className="fixed top-0 left-0 right-0 h-24 bg-gradient-to-b from-background via-background/80 to-transparent z-30 pointer-events-none" />
+      
+      {/* Bottom gradient overlay for smooth transition */}
+      <div className="fixed bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background via-background/90 to-transparent z-30 pointer-events-none" />
+
+      {/* Full Screen Landing Page Hero Section */}
+      <div className="h-screen flex items-center justify-center relative overflow-hidden z-40">
+        <div className="container mx-auto px-4 h-full relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center h-full">
+            {/* Left Side - Welcome Text */}
+            {/* Left Side - Welcome Text */}
+            <div className="space-y-8 flex flex-col justify-center">
+              <div className="space-y-6">
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight">
+                  <span className="block drop-shadow-lg" style={{textShadow: '0 0 20px hsl(var(--background)), 0 0 40px hsl(var(--background)), 0 2px 4px rgba(0,0,0,0.1)'}}>
+                    <TextType 
+                      text="Welcome to"
+                      as="span"
+                      typingSpeed={100}
+                      showCursor={false}
+                      loop={false}
+                      startOnVisible={true}
+                      className="bg-gradient-to-r from-foreground/80 via-muted-foreground to-foreground/60 bg-clip-text text-transparent"
+                    />
+                  </span>
+                  <span className="block drop-shadow-lg" style={{textShadow: '0 0 20px hsl(var(--background)), 0 0 40px hsl(var(--background))'}}>
+                    <TextType 
+                      text="CLIP Tools"
+                      as="span"
+                      typingSpeed={120}
+                      initialDelay={1200}
+                      showCursor={false}
+                      cursorCharacter="|"
+                      cursorClassName="text-primary"
+                      loop={false}
+                      startOnVisible={true}
+                      className="bg-gradient-to-r from-foreground/50 via-foreground/70 to-foreground/90 bg-clip-text text-transparent"
+                    />
+                  </span>
+                </h1>
+              
+              </div>
+              
+              {/* 搜索框 */}
+              <div className="max-w-md">
+                <SearchBox 
+                  onSearchResults={handleSearchResults}
+                  placeholder="搜索工具名称、描述或分类..."
+                  className="mb-4"
+                />
+              </div>
+              
+              {/* Search Results Info */}
+              {isSearching && (
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold text-foreground flex items-center gap-2" style={{textShadow: '0 0 15px hsl(var(--background)), 0 0 30px hsl(var(--background))'}}>
+                    <Search className="w-5 h-5 text-primary" />
+                    搜索结果
+                  </h3>
+                  <p className="text-muted-foreground" style={{textShadow: '0 0 15px hsl(var(--background)), 0 0 30px hsl(var(--background))'}}>
+                    找到 {displayTools.length} 个相关工具
+                  </p>
+                </div>
+              )}
+            </div>            {/* Right Side - Infinite Scroll Tools */}
+            <div className="hidden lg:flex justify-center items-center">
+              <div style={{height: '85vh', width: '600px', position: 'relative'}}>
+                <InfiniteScroll
+                  items={infiniteScrollItems}
+                  maxHeight="85vh"
+                  width="600px"
+                  itemMinHeight={120}
+                  isTilted={true}
+                  tiltDirection="left"
+                  autoplay={true}
+                  autoplaySpeed={0.8}
+                  autoplayDirection="up"
+                  pauseOnHover={true}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Featured Tools Section */}
       {!selectedCategory && !isSearching && (
-        <>
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-              ⭐ 推荐工具
-            </h2>
-            <BentoGrid 
-              tools={featuredTools} 
-              className="mb-8"
-              showDecorative={true}
-              enablePerformanceMonitoring={true}
-              onError={handleBentoGridError}
-            />
+        <div className="container mx-auto px-4 py-8 relative z-40">
+          <div className="mb-4 relative">
+            <div className="relative p-6">
+              <h2 className="text-3xl md:text-3xl font-semibold mb-6 flex items-center gap-2 text-center text-foreground/80" style={{textShadow: '0 0 20px hsl(var(--background)), 0 0 40px hsl(var(--background))'}}>
+                <Star className="w-8 h-8 text-primary" />
+                推荐工具
+              </h2>
+              <BentoGrid 
+                tools={featuredTools} 
+                showDecorative={true}
+                enablePerformanceMonitoring={true}
+                onError={handleBentoGridError}
+              />
+            </div>
           </div>
-          
-          {/* <Separator className="my-8" /> */}
-        </>
-      )}
-
-      {/* Category Filter */}
-      {!isSearching && (
-        <div className="mb-6">
-          <h2 className="text-2xl font-semibold mb-4">
-            {selectedCategory ? '分类工具' : '全部工具'}
-          </h2>
-          <CategoryFilter 
-            selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
-          />
-        </div>
-      )}
-      
-      {/* Search Results Header */}
-      {isSearching && (
-        <div className="mb-6">
-          <h2 className="text-2xl font-semibold mb-2 flex items-center gap-2">
-            🔍 搜索结果
-          </h2>
-          <p className="text-muted-foreground">
-            找到 {displayTools.length} 个相关工具
-          </p>
         </div>
       )}
 
       {/* All Tools Grid */}
-      <BentoGrid 
-        tools={displayTools}
-        showDecorative={true}
-        enablePerformanceMonitoring={true}
-        onError={handleBentoGridError}
-      />
+      <div className="container mx-auto px-4 py-2 relative z-40">
+        <div className="relative p-6">
+          {/* Category Filter */}
+          {!isSearching && (
+            <div className="mb-8 space-y-4">
+              <h3 className="text-3xl font-semibold text-foreground/80 flex items-center gap-2" style={{textShadow: '0 0 15px hsl(var(--background)), 0 0 30px hsl(var(--background))'}}>
+                <BookOpen className="w-8 h-8 text-primary" />
+                {selectedCategory ? '分类工具' : '浏览分类'}
+              </h3>
+              <CategoryFilter 
+                selectedCategory={selectedCategory}
+                onCategoryChange={setSelectedCategory}
+              />
+            </div>
+          )}
+          
+          <BentoGrid 
+            tools={displayTools}
+            showDecorative={true}
+            enablePerformanceMonitoring={true}
+            onError={handleBentoGridError}
+          />
+        </div>
+      </div>
       
       {/* Development Tools */}
-      <DevTools 
-        tools={displayTools} 
-        decorativeCount={decorativeCount}
-      />
+      <div className="relative z-40">
+        <DevTools 
+          tools={displayTools} 
+          decorativeCount={decorativeCount}
+        />
+      </div>
       
       {/* Simple Performance Warning */}
-      <SimpleDevTools 
-        tools={displayTools} 
-        decorativeCount={decorativeCount}
-      />
+      <div className="relative z-40">
+        <SimpleDevTools 
+          tools={displayTools} 
+          decorativeCount={decorativeCount}
+        />
+      </div>
 
       {/* Footer */}
-      <footer className="mt-16 pt-8 border-t text-center text-muted-foreground">
-        <p className="mb-2">
-          Made with ❤️ for developers and creators
-        </p>
-        <p className="text-sm">
-          所有工具均在浏览器本地运行，保护您的隐私安全
-        </p>
+      <footer className="mt-4 pb-4 relative z-40">
+        <div className="relative border-t pt-4 text-center text-muted-foreground">
+          <div className="container mx-auto px-4 py-2 relative">
+            <p className="mb-1 flex items-center justify-center gap-2" style={{textShadow: '0 0 15px hsl(var(--background)), 0 0 30px hsl(var(--background))'}}>
+              Made with <Heart className="w-4 h-4 text-red-500 fill-current" /> for developers and creators
+            </p>
+            <p className="text-sm pb-2" style={{textShadow: '0 0 15px hsl(var(--background)), 0 0 30px hsl(var(--background))'}}>
+              所有工具均在浏览器本地运行，保护您的隐私安全
+            </p>
+          </div>
+        </div>
       </footer>
     </div>
   );

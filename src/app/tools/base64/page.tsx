@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import { Copy, RotateCcw, ArrowUpDown, Download } from 'lucide-react';
+import { Copy, RotateCcw, ArrowUpDown, Download, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function Base64Page() {
@@ -203,9 +203,10 @@ export default function Base64Page() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
-          🔐 Base64编码解码
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold mb-2 flex items-center justify-center gap-2" style={{textShadow: '0 0 20px hsl(var(--background)), 0 0 40px hsl(var(--background))'}}>
+          <Lock className="w-8 h-8 text-primary" />
+          Base64编码解码
         </h1>
         <p className="text-muted-foreground">
           Base64编码解码工具，支持文本和文件处理

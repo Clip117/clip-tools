@@ -14,7 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search, Copy, RotateCcw, CheckCircle, XCircle, Info } from 'lucide-react';
+import { Search, Copy, RotateCcw, CheckCircle, XCircle, Info, CheckSquare } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface RegexMatch {
@@ -229,7 +229,10 @@ IP：192.168.1.1
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">正则表达式测试器</h1>
+          <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+            <CheckSquare className="w-10 h-10 text-primary" />
+            正则表达式测试器
+          </h1>
           <p className="text-muted-foreground text-lg">
             实时测试和调试正则表达式，支持匹配和替换功能
           </p>
