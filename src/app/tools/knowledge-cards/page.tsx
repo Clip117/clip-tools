@@ -16,7 +16,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Label } from '@/components/ui/label';
 import { KnowledgeCard, KnowledgeCardCategory, DEFAULT_CATEGORIES } from '@/types/knowledge-card';
 import { KnowledgeCardComponent } from '@/components/knowledge-card';
-import { Plus, Search, BookOpen, FolderPlus } from 'lucide-react';
+import { Plus, Search, BookOpen, FolderPlus, Download, Upload } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function KnowledgeCardsPage() {
@@ -261,7 +261,8 @@ export default function KnowledgeCardsPage() {
             <div className="flex gap-2">
               {/* 添加文件操作按钮 */}
               <Button variant="outline" onClick={saveToLocalFile} className="shrink-0">
-                💾 备份数据
+                <Download className="h-4 w-4" />
+                备份数据
               </Button>
               <div className="relative">
                 <input
@@ -272,7 +273,8 @@ export default function KnowledgeCardsPage() {
                   id="file-input"
                 />
                 <Button variant="outline" className="shrink-0">
-                  📁 恢复数据
+                  <Upload className="h-4 w-4" />
+                  恢复数据
                 </Button>
               </div>
               
